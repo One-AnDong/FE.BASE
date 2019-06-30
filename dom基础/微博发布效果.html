@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>微博发布效果</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .box {
+      width: 500px;
+      margin: 0 auto;
+      padding: 10px;
+      border: 1px solid #666;
+    }
+
+    .content {
+      resize: none;
+      width: 100%;
+      border: 1px solid #666;
+    }
+
+    .btn {
+      margin: 5px 0;
+      padding: 5px 20px;
+      border: none;
+      border-radius: 3px;
+      background: orange;
+      color: #fff;
+      outline: none;
+    }
+
+    .list .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div>
+      <textarea name="" class="content" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <button class="btn">发布</button>
+    </div>
+    <div class="list">
+      <div class="item">
+        <p class="item__title">这是文字</p>
+        <span class="item__del">删除</span>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const oCont = document.querySelector('.content')
+      const oBtn = document.querySelector('.btn')
+      const oList = document.querySelector('.list')
+      oBtn.addEventListener('click', function () {
+        let str = oCont.value.trim()
+        if (str.length === 0) {
+          alert('你没有输入任何字符')
+        } else {
+          let ele = document.createElement('div')
+          ele.classList.add('item')
+          ele.innerHTML = `<p class="item__title">${str}</p>
+                           <span class="item__del">删除</span>`
+          oList.insertBefore(ele, oList.children[0])
+          oCont.value = ''
+        }
+      })
+
+      //事件委托
+      oList.addEventListener('click', function (e) {
+
+        if (e.target.nodeName === 'SPAN') {
+          oList.removeChild(e.target.parentNode)
+        }
+      })
+    })();
+  </script>
+</body>
+
+</html>
