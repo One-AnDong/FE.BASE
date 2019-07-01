@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>拖拽</title>
+  <style>
+    .box {
+      position: relative;
+      /* transform: translateX(0, 0); */
+      width: 100px;
+      height: 100px;
+      background: pink;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script>
+    const oBox = document.querySelector('.box')
+    let l = 0
+    let t = 0
+    oBox.addEventListener('mousedown', function (e) {
+      l = e.clientX - oBox.offsetLeft
+      t = e.clientY - oBox.offsetTop
+      console.log(l, t)
+      document.addEventListener('mousemove', setMove)
+      document.addEventListener('mouseup', function () {
+        document.removeEventListener('mousemove', setMove)
+      })
+    })
+
+    function setMove(e) {
+      let x = e.clientX - l
+      let y = e.clientY - t
+      x < 0 ? (x = 0) : x
+      y < 0 ? (y = 0) : y
+      // console.log(x, y)
+      // oBox.style.transform = `translate(${x}px,${y}px)`
+      oBox.style.left = x + 'px'
+      oBox.style.top = y + 'px'
+    }
+  </script>
+</body>
+
+</html>
