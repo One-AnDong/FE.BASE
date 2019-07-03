@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>d倒计时</title>
+</head>
+<style>
+  .time {
+    margin: 0 auto;
+  }
+
+  .time__item {
+    display: inline-block;
+    width: 35px;
+    height: 50px;
+    border-radius: 3px;
+    font-size: 35px;
+    line-height: 50px;
+    text-align: center;
+    background: linear-gradient(to right, #000, #333);
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .time__drop {
+    display: inline-block;
+    width: 20px;
+    height: 50px;
+    line-height: 50px;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+  }
+</style>
+
+<body>
+  <div class="time">
+    <span class="time__item">0</span>
+    <span class="time__item">0</span>
+    <span class="time__drop">:</span>
+    <span class="time__item">0</span>
+    <span class="time__item">0</span>
+    <span class="time__drop">:</span>
+    <span class="time__item">0</span>
+    <span class="time__item">0</span>
+  </div>
+  <script>
+    /**
+     *  mis       必选[Number]     传入要倒计时的时间单位为秒
+     *  select    必选[String]     需要显示的盒子的选择器必须是一组6个盒子
+     */
+    function Time(mis, select) {
+      this.time = mis
+      this.oTarget = document.querySelectorAll(select)
+      this.init()
+    }
+    Time.prototype = {
+      constructor: 'Time',
+      //初始化
+      init: function () {
+        let timeId = setInterval(() => {
+          this.time--
+          let h = Math.floor(this.time / 3600)
+          let s = Math.floor((this.time / 60) % 60)
+          let m = Math.floor(this.time % 60)
+          if (this.time < 0) {
+            clearInterval(timeId)
+          }
+
+          this.setTime(this.oTarget, {
+            h,
+            s,
+            m
+          })
+
+        }, 1000)
+      },
+      //设置时间
+      setTime: function (obj, val) {
+        let {
+          h,
+          s,
+          m
+        } = val
+        let oTarget = obj
+        oTarget[0].innerText = Math.floor(h / 10)
+        oTarget[1].innerText = h % 10
+        oTarget[2].innerText = Math.floor(s / 10)
+        oTarget[3].innerText = s % 10
+        oTarget[4].innerText = Math.floor(m / 10)
+        oTarget[5].innerText = m % 10
+      }
+    }
+    new Time(36000, '.time__item')
+  </script>
+</body>
+
+</html>

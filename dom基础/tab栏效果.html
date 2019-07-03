@@ -11,13 +11,53 @@
       box-sizing: border-box;
     }
 
+    .wrap {
+      width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
     .bar {
       display: flex;
+      justify-content: space-between;
     }
 
     .bar__tab {
-      border-top: 1px solid #eee;
-      padding: 2px 3px;
+      flex: 1;
+      text-align: center;
+      border: 1px solid #eee;
+      padding: 5px 0;
+    }
+
+    .content {
+      display: none;
+      height: 300px;
+      line-height: 300px;
+      text-align: center;
+      font-size: 50px;
+      color: #fff;
+      background: skyblue;
+    }
+
+    .show {
+      display: block;
+    }
+
+    .active {
+      background: orange;
+      color: #fff;
+    }
+
+    .content:nth-child(2) {
+      background: hotpink;
+    }
+
+    .content:nth-child(3) {
+      background: yellow;
+    }
+
+    .content:nth-child(4) {
+      background: black;
     }
   </style>
 </head>
@@ -25,16 +65,48 @@
 <body>
   <div class="wrap">
     <div class="bar">
-      <div class="bar__tab">国际大牌</div>
-      <div class="bar__tab">国妆名牌</div>
-      <div class="bar__tab">清洁用品</div>
-      <div class="bar__tab">男士精品</div>
+      <div class="bar__tab active" data-index="0">国际大牌</div>
+      <div class="bar__tab" data-index="1">国妆名牌</div>
+      <div class="bar__tab" data-index="2">清洁用品</div>
+      <div class="bar__tab" data-index="3">男士精品</div>
+    </div>
+
+    <div class="content show">
+      1
     </div>
     <div class="content">
-
+      2
+    </div>
+    <div class="content">
+      3
+    </div>
+    <div class="content">
+      4
     </div>
   </div>
+  <script>
+    const oSelect = document.querySelectorAll('.bar__tab')
+    const oCont = document.querySelectorAll('.content')
 
+    for (let i = 0; i < oSelect.length; i++) {
+      oSelect[i].addEventListener('mouseover', function () {
+        let timeId = setTimeout(() => {
+          Array.prototype.map.call(oSelect, (item) => {
+            item.classList.remove('active')
+          })
+          Array.prototype.map.call(oCont, (item) => {
+            item.classList.remove('show')
+          })
+          this.classList.add('active')
+          oCont[this.dataset.index].classList.add('show')
+        }, 300)
+        this.addEventListener('mouseout', function () {
+          clearTimeout(timeId)
+        })
+      })
+
+    }
+  </script>
 </body>
 
 </html>

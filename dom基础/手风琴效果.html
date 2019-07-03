@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .banner {
+      display: flex;
+      width: 8000px;
+    }
+
+    .banner__item {
+      width: 100px;
+      height: 300px;
+      transition: all .4s;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="banner">
+    <div class="banner__item" style="background: red"><img src="" alt=""></div>
+    <div class="banner__item" style="background: orange"><img src="" alt=""></div>
+    <div class="banner__item" style="background: hotpink;width: 400px"><img src="" alt=""></div>
+    <div class="banner__item" style="background: skyblue"><img src="" alt=""></div>
+    <div class="banner__item" style="background: yellowgreen"><img src="" alt=""></div>
+  </div>
+  <script>
+    const oItem = document.querySelectorAll('.banner__item');
+    Array.prototype.map.call(oItem, function (item, index) {
+      item.addEventListener('mouseover', function () {
+        Array.prototype.map.call(oItem, (item, index) => {
+          item.style.width = '100px'
+        })
+        this.style.width = '400px'
+      })
+      item.addEventListener('mouseout', () => {
+        Array.prototype.map.call(oItem, (item, index) => {
+          item.style.width = 800 / 5 + 'px'
+        })
+      })
+    })
+  </script>
+</body>
+
+</html>
