@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>拖拽2.0</title>
+  <style>
+    body {
+      background-color: #a3d5d3;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background: red;
+      transform: translate(10px, 10px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class='box'>
+  </div>
+  <script>
+    const oBox = document.querySelector('.box')
+    let tempX = 0
+    let tempY = 0
+    let initX = 0
+    let initY = 0
+    oBox.addEventListener('mousedown', function (e) {
+      tempX = e.pageX;
+      tempY = e.pageY;
+      let initPositon = document.defaultView.getComputedStyle(oBox)['transform']
+      let initArr = initPositon.match(/\d+/g)
+      initX = +initArr[4]
+      initY = +initArr[5]
+
+      document.addEventListener('mousemove', setMove)
+      document.addEventListener('mouseup', function () {
+        document.removeEventListener('mousemove', setMove)
+      })
+    })
+
+    function setMove(e) {
+      let currX = e.pageX
+      let currY = e.pageY
+      let x = currX - tempX + initX
+      let y = currY - tempY + initY
+
+      oBox.style.transform = `translate(${x}px,${y}px)`
+    }
+  </script>
+</body>
+
+</html>

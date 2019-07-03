@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>微博发布效果</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .blog {
+        width: 500px;
+        margin: 0 auto;
+        padding: 10px;
+        border: 1px solid #666;
+      }
+
+      .blog .content {
+        resize: none;
+        width: 100%;
+        border: 1px solid #666;
+      }
+
+      .blog .btn {
+        margin: 5px 0;
+        padding: 5px 20px;
+        border: none;
+        border-radius: 3px;
+        background: orange;
+        color: #fff;
+        outline: none;
+      }
+
+      .blog .list .item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="blog">
+      <div>
+        <textarea name="" class="content" cols="30" rows="10"></textarea>
+      </div>
+      <div>
+        <button class="btn">发布</button>
+      </div>
+      <div class="list">
+        <div class="item">
+          <p class="item__title">这是文字</p>
+          <span class="item__del">删除</span>
+        </div>
+      </div>
+    </div>
+    <script>
+      /*------------------------------------------------发布效果模块-------------------------------------------------*/
+      /**
+       * @param           obj          必选[object]           对象,默认值{cont: '.content',btn: '.btn',list: '.list'}
+       */
+      function BlogPush(obj) {
+        obj = Object.assign(
+          {
+            cont: '.content',
+            btn: '.btn',
+            list: '.list'
+          },
+          obj
+        )
+        let { cont, btn, list } = obj
+        this.oCont = document.querySelector(cont)
+        this.oBtn = document.querySelector(btn)
+        this.oList = document.querySelector(list)
+        //自动初始化
+        this.init()
+      }
+      BlogPush.prototype = {
+        constructor: 'BlogPush',
+        init: function() {
+          //按钮添加点击事件，实现点击发布
+          this.oBtn.addEventListener('click', () => {
+            this.addItem()
+          })
+          //添加keydown事件，实现回车发布
+          this.oCont.addEventListener('keydown', e => {
+            if (e.keyCode === 13) {
+              this.addItem()
+            }
+          })
+          //利用事件委托实现删除功能
+          this.oList.addEventListener('click', e => {
+            if (e.target.nodeName === 'SPAN') {
+              this.oList.removeChild(e.target.parentNode)
+            }
+          })
+        },
+        //添加新标签的方法封装
+        addItem: function() {
+          let str = this.oCont.value.trim()
+          if (str.length === 0) {
+            alert('你没有输入任何字符')
+          } else {
+            let ele = this.createElement('div', 'item')
+            ele.appendChild(this.createElement('p', 'item_title', str))
+            ele.appendChild(this.createElement('span', 'item_del', '删除'))
+            this.oList.insertBefore(ele, this.oList.children[0])
+            this.oCont.value = ''
+          }
+        },
+        //创建元素封装
+        createElement: function(target, className = '', text = '') {
+          if (target.length > 0) {
+            const ele = document.createElement(target)
+            ele.classList.add(className)
+            ele.innerText = text
+            return ele
+          }
+          return null
+        }
+      }
+      //调用构造函数创造实例并调用初始化函数
+      new BlogPush()
+    </script>
+  </body>
+</html>
