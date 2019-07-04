@@ -93,25 +93,11 @@
       const arr = JSON.parse(localStorage.getItem('wbData')) || []
       initData()
       //添加点击事件，点击后发布
-      oBtn.addEventListener('click', function () {
-        let str = oCont.value.trim()
-        if (str.length < 1) {
-          alert('输入的空字符串')
-          return
-        }
-        let time = getTime()
-        let id = T.primaryKey()
-        setElement(str, time, id)
-        addLocal(str, time, id)
-      })
-      //添加键盘事件，按enter发布
+      oBtn.addEventListener('click', handleClick)
+      //添加键盘事件，按 ctrl+enter发布
       oCont.addEventListener('keydown', function (e) {
-        if (e.keyCode === 13) {
-          let str = oCont.value.trim()
-          let time = getTime()
-          let id = Date.now()
-          setElement(str, time, id)
-          addLocal(str, time, id)
+        if (e.keyCode === 13 && e.ctrlKey) {
+          handleClick()
         }
       })
       //数据初始化
@@ -160,19 +146,17 @@
         arr.push(obj)
         localStorage.setItem('wbData', JSON.stringify(arr))
       }
-      //获取时间
-      function getTime() {
-
-        let time = new Date().toString().split(' ')
-        let m = new Date().getMonth() + 1
-        return time[3] + '-' + addZero(m) + '-' + time[2] + ' ' + time[4]
-      }
-      //给单数数字前面添加0
-      function addZero(val) {
-        if (val < 10) {
-          val = '0' + val
+      //点击函数
+      function handleClick() {
+        let str = oCont.value.trim()
+        if (str.length < 1) {
+          alert('输入的空字符串')
+          return
         }
-        return val
+        let time = T.formateDate()
+        let id = T.primaryKey()
+        setElement(str, time, id)
+        addLocal(str, time, id)
       }
     })();
   </script>

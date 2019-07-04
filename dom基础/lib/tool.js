@@ -16,7 +16,7 @@ var T = {
     let h = this.addZero(date.getHours())
     let m = this.addZero(date.getMinutes())
     let s = this.addZero(date.getSeconds())
-    return y + '年' + t + '月' + d + '日' + h + ':' + m + ':' + s
+    return y + '-' + t + '-' + d + '  ' + h + ':' + m + ':' + s
   },
   addZero: function(val) {
     if (val < 10) {
