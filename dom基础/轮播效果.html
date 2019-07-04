@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>web api</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .banner {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .banner .wrap {
+      position: absolute;
+      width: 900px;
+      left: 0;
+      transition: all .3s
+    }
+
+    .banner .wrap img {
+      float: left;
+      width: 300px;
+      height: 200px;
+    }
+
+    .clearfix::after {
+      display: block;
+      content: '';
+      visibility: hidden;
+      height: 0;
+      clear: both;
+    }
+
+    .btn-l,
+    .btn-r {
+      position: absolute;
+      top: 50%;
+      height: 50px;
+      width: 25px;
+      margin-top: -25px;
+      line-height: 50px;
+      font-size: 15px;
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, .3);
+    }
+
+    .btn-l {
+      left: 0;
+    }
+
+    .btn-r {
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="banner">
+    <div class="wrap clearfix">
+      <img class="banner-pic" src="./images/pic_1.jpg" />
+      <img class="banner-pic" src="./images/pic_2.jpg" />
+      <img class="banner-pic" src="./images/pic_3.jpg" />
+    </div>
+    <div class="btn-l">&lt;</div>
+    <div class="btn-r">&gt;</div>
+  </div>
+  <script>
+    var index = 0
+    var oBanner = document.querySelector('.banner')
+    var oBox = document.querySelector('.wrap')
+    var oImg = document.querySelectorAll('.banner-pic')
+    var oBtnL = document.querySelector('.btn-l')
+    var oBtnR = document.querySelector('.btn-r')
+    var timerId = setInterval(setTime, 800)
+    oBanner.addEventListener('mouseover', function () {
+      clearInterval(timerId)
+
+    })
+    oBanner.addEventListener('mouseout', function () {
+      timerId = setInterval(setTime, 800)
+    })
+    oBtnL.addEventListener('click', function () {
+      var l = oBox.style.left
+      if (l === '0px') {
+        oBox.style.left = -(oImg[0].offsetWidth * (oImg.length - 1)) + 'px'
+      } else {
+        console.log(l.replace(/px/, ''))
+        oBox.style.left = +l.replace(/px/, '') + oImg[0].offsetWidth + 'px'
+      }
+    })
+    oBtnR.addEventListener('click', function () {
+      var l = oBox.style.left
+      var temp = oImg[0].offsetWidth * (oImg.length - 1)
+      if (l.replace(/px/, '') == -temp) {
+        oBox.style.left = 0
+      } else {
+        console.log(l.replace(/px/, ''))
+        oBox.style.left = +l.replace(/px/, '') - oImg[0].offsetWidth + 'px'
+      }
+    })
+
+    function setTime() {
+      if (index < oImg.length) {
+        oBox.style.left = -(oImg[0].offsetWidth * index) + 'px'
+        index++
+      } else {
+        index = 0
+      }
+    }
+  </script>
+</body>
+
+</html>

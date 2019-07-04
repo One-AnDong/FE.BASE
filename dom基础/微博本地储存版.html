@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>微博发布效果</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .blog {
+      width: 500px;
+      margin: 0 auto;
+      padding: 10px;
+      border: 1px solid #666;
+    }
+
+    .blog .content {
+      resize: none;
+      width: 100%;
+      border: 1px solid #666;
+    }
+
+    .blog .btn {
+      margin: 5px 0;
+      padding: 5px 20px;
+      border: none;
+      border-radius: 3px;
+      background: orange;
+      color: #fff;
+      outline: none;
+    }
+
+    .blog .list .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 5px;
+    }
+
+    .blog .item__title {
+      width: 60%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis
+    }
+
+    .blog .item__del {
+      width: 10%;
+    }
+
+    .blog .item__time {
+      width: 30%;
+      font-size: 12px;
+      /* margin-left: 210px; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="blog">
+    <div>
+      <textarea name="" class="content" cols="30" rows="10"></textarea>
+    </div>
+    <div>
+      <button class="btn">发布</button>
+    </div>
+    <div class="list">
+      <!-- <div class="item">
+        <p class="item__title">这是文字</p>
+        <div class="item__time">
+          2019-07-04 10:59:16
+        </div>
+        <span class="item__del">删除</span>
+      </div> -->
+    </div>
+  </div>
+  <script src="./lib/tool.js"></script>
+  <script>
+    (function () {
+      const oCont = document.querySelector('.content')
+      const oBtn = document.querySelector('.btn')
+      const oList = document.querySelector('.list')
+      const arr = JSON.parse(localStorage.getItem('wbData')) || []
+      initData()
+      //添加点击事件，点击后发布
+      oBtn.addEventListener('click', function () {
+        let str = oCont.value.trim()
+        if (str.length < 1) {
+          alert('输入的空字符串')
+          return
+        }
+        let time = getTime()
+        let id = T.primaryKey()
+        setElement(str, time, id)
+        addLocal(str, time, id)
+      })
+      //添加键盘事件，按enter发布
+      oCont.addEventListener('keydown', function (e) {
+        if (e.keyCode === 13) {
+          let str = oCont.value.trim()
+          let time = getTime()
+          let id = Date.now()
+          setElement(str, time, id)
+          addLocal(str, time, id)
+        }
+      })
+      //数据初始化
+      function initData() {
+        arr.map(item => {
+          setElement(item.content, item.time, item.id)
+        })
+
+      }
+      //删除函数
+      function delData(id) {
+        const newArr = arr.map((item, i) => {
+          if (item.id == id) {
+            arr.splice(i, 1)
+          }
+        })
+        localStorage.setItem('wbData', JSON.stringify(arr))
+
+      }
+      //事件委托
+      oList.addEventListener('click', function (e) {
+
+        if (e.target.nodeName === 'SPAN') {
+          oList.removeChild(e.target.parentNode)
+          delData(+e.target.dataset.id)
+        }
+      })
+      //添加函数
+      function setElement(str, time, id) {
+        let ele = document.createElement('div')
+        ele.classList.add('item')
+        ele.innerHTML = `<p class="item__title">${str}</p>
+                           <div class="item__time">${time}</div>
+                           <span class="item__del" data-id="${id}">删除</span>`
+        oList.insertBefore(ele, oList.children[0])
+        oCont.value = ''
+
+      }
+      //添加到localStorage
+      function addLocal(str, time, id) {
+        let obj = {
+          id: id,
+          content: str,
+          time: time
+        }
+        arr.push(obj)
+        localStorage.setItem('wbData', JSON.stringify(arr))
+      }
+      //获取时间
+      function getTime() {
+
+        let time = new Date().toString().split(' ')
+        let m = new Date().getMonth() + 1
+        return time[3] + '-' + addZero(m) + '-' + time[2] + ' ' + time[4]
+      }
+      //给单数数字前面添加0
+      function addZero(val) {
+        if (val < 10) {
+          val = '0' + val
+        }
+        return val
+      }
+    })();
+  </script>
+</body>
+
+</html>
