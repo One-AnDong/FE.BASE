@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .box {
+      width: 730px;
+      height: 454px;
+      padding: 8px;
+      border: 1px solid green;
+      margin: 100px auto;
+    }
+
+    .inner {
+      position: relative;
+      overflow: hidden;
+      height: 454px;
+    }
+
+    #imglist {
+      width: 700%;
+      position: absolute;
+      left: 0;
+      transition: left 300ms linear;
+    }
+
+    li {
+      float: left;
+    }
+
+    .list {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      margin-left: -85px;
+    }
+
+    .list i {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #fff;
+      color: #333;
+      float: left;
+      font-style: normal;
+      line-height: 20px;
+      font-size: 14px;
+      text-align: center;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .list i:last-child {
+      margin-right: 0;
+    }
+
+    .list i.current {
+      background-color: skyblue;
+      color: #fff;
+    }
+
+    .arrow {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      margin-top: -30px;
+    }
+
+    .arrow-left,
+    .arrow-right {
+      width: 30px;
+      height: 60px;
+      position: absolute;
+      font: 20px/60px 'consolas';
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.3);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .arrow-right {
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="box">
+    <div class="inner" id="inner">
+      <ul id="imglist">
+        <li>
+          <a href="#"><img src="images/1.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/2.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/3.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/4.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/5.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/6.jpg" alt="" /></a>
+        </li>
+      </ul>
+      <div class="list">
+        <i class="current">1</i>
+        <i>2</i>
+        <i>3</i>
+        <i>4</i>
+        <i>5</i>
+        <i>6</i>
+      </div>
+      <div class="arrow">
+        <span class="arrow-left">&lt;</span>
+        <span class="arrow-right">&gt;</span>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  /*---------------------------------简单封装滚动函数--------------------------------------------*/
+  /**
+   * @parame  obj   必选【Object】    
+   */
+  function Swiper(obj) {
+    this.imgBox = obj.imgBox
+    this.circleBox = obj.circleBox
+    this.btnLeft = obj.btnLeft
+    this.btnRight = obj.btnRight
+    this.targetBox = obj.targetBox
+    this.index
+    this.circle
+    this.moveId
+    this.init()
+
+  }
+  Swiper.prototype = {
+    consturctor: 'Swiper',
+    init: function () {
+      //数据初始化
+      this.index = 0
+      //启动自动轮播
+      this.moveId = setInterval(() => {
+        this.index++
+        this.setMove(this.imgBox, this.circleBox)
+      }, 1000)
+      //原点导航
+      this.setCircle()
+      //左按钮
+      this.btnLeft.addEventListener('click', () => {
+        this.index--
+        this.setMove(this.imgBox, this.circleBox)
+      })
+      //右按钮
+      this.btnRight.addEventListener('click', () => {
+        this.index++
+        this.setMove(this.imgBox, this.circleBox)
+      })
+
+      //鼠标移入启动定时器
+      targetBox.addEventListener('mouseover', () => {
+        clearInterval(this.moveId)
+      })
+      //鼠标移出关闭定时器
+      targetBox.addEventListener('mouseout', () => {
+        this.moveId = setInterval(() => {
+          this.index++
+          this.setMove(this.imgBox, this.circleBox)
+        }, 1000)
+      })
+    },
+    //注册事件函数
+    addEvent: function (obj, type, fn) {
+      obj.addEventListener(type, function () {
+        fn()
+      })
+    },
+    //滚动函数
+    setMove: function (target, circle) {
+      if (this.index < 0) {
+        this.index = target.children.length - 1
+      } else if (this.index > target.children.length - 1) {
+        this.index = 0
+      }
+      target.style.left = target.children[0].offsetWidth * this.index * -1 + 'px'
+      this.setCircleStyle(this.circleBox)
+    },
+    //设置小圆点导航样式
+    setCircleStyle: function (target) {
+      Array.prototype.map.call(target, (item, i) => {
+        item.classList.remove('current')
+        if (i === this.index) {
+          item.classList.add('current')
+        }
+      })
+    },
+    //小圆点导航栏
+    setCircle: function () {
+      this.circleBox.forEach((item, i) => {
+        item.addEventListener('mouseover', () => {
+          this.circleId = setTimeout(() => {
+            this.index = i
+            this.setMove(this.imgBox, this.circleBox)
+            this.setCircleStyle(this.circleBox)
+          }, 300)
+        })
+        item.addEventListener('mouseout', () => {
+          clearTimeout(this.circleId)
+        })
+      })
+    }
+  }
+
+
+  //调用
+  const imgBox = document.getElementById('imglist')
+  const circleBox = document.querySelectorAll('.list>i')
+  const btnLeft = document.querySelector('.arrow-left')
+  const btnRight = document.querySelector('.arrow-right')
+  const targetBox = document.querySelector('#inner')
+  new Swiper({
+    imgBox,
+    circleBox,
+    btnLeft,
+    btnRight,
+    targetBox
+  })
+</script>
+
+</html>

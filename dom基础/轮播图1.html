@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .box {
+      width: 730px;
+      height: 454px;
+      padding: 8px;
+      border: 1px solid green;
+      margin: 100px auto;
+    }
+
+    .inner {
+      position: relative;
+      overflow: hidden;
+      height: 454px;
+    }
+
+    #imglist {
+      width: 700%;
+      position: absolute;
+      left: 0;
+      transition: left 300ms linear;
+    }
+
+    li {
+      float: left;
+    }
+
+    .list {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      margin-left: -85px;
+    }
+
+    .list i {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #fff;
+      color: #333;
+      float: left;
+      font-style: normal;
+      line-height: 20px;
+      font-size: 14px;
+      text-align: center;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .list i:last-child {
+      margin-right: 0;
+    }
+
+    .list i.current {
+      background-color: skyblue;
+      color: #fff;
+    }
+
+    .arrow {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      margin-top: -30px;
+    }
+
+    .arrow-left,
+    .arrow-right {
+      width: 30px;
+      height: 60px;
+      position: absolute;
+      font: 20px/60px 'consolas';
+      color: #fff;
+      background-color: rgba(0, 0, 0, 0.3);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .arrow-right {
+      right: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="box">
+    <div class="inner" id="inner">
+      <ul id="imglist">
+        <li>
+          <a href="#"><img src="images/1.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/2.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/3.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/4.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/5.jpg" alt="" /></a>
+        </li>
+        <li>
+          <a href="#"><img src="images/6.jpg" alt="" /></a>
+        </li>
+      </ul>
+      <div class="list">
+        <i class="current">1</i>
+        <i>2</i>
+        <i>3</i>
+        <i>4</i>
+        <i>5</i>
+        <i>6</i>
+      </div>
+      <div class="arrow">
+        <span class="arrow-left">&lt;</span>
+        <span class="arrow-right">&gt;</span>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  const oBox = document.getElementById('imglist')
+  const aLi = document.querySelectorAll('.list>i')
+  const oImg = document.querySelectorAll('#imglist img')
+  const oBtnL = document.querySelector('.arrow-left')
+  const oBtnR = document.querySelector('.arrow-right')
+  const oInner = document.querySelector('#inner')
+  let timerId
+  let time
+  //小圆点导航栏
+  aLi.forEach((item, index) => {
+    item.addEventListener('mouseover', function () {
+      timerId = setTimeout(() => {
+        ;
+        [].map.call(aLi, item => {
+          item.classList.remove('current')
+        })
+        item.classList.add('current')
+        oBox.style.left = -(index * oImg[0].offsetWidth) + 'px'
+      }, 300)
+    })
+    item.addEventListener('mouseout', function () {
+      clearTimeout(timerId)
+    })
+  })
+  //左按钮
+  oBtnL.addEventListener('click', function () {
+    var l = oBox.style.left
+    if (l === '0px' || l === '') {
+      oBox.style.left = -(oImg[0].offsetWidth * (oImg.length - 1)) + 'px'
+    } else {
+      oBox.style.left = +l.replace(/px/, '') + oImg[0].offsetWidth + 'px'
+    }
+    setCircle()
+  })
+  //右按钮
+  oBtnR.addEventListener('click', function () {
+    autoPlay()
+    setCircle()
+  })
+  //设置轮播图滚动，当前的原点样式跟着改变
+  function setCircle() {
+    let index = oBox.style.left.replace(/px/, '') / oImg[0].offsetWidth;
+    [].map.call(aLi, function (item, i) {
+      item.classList.remove('current')
+      if (i === Math.abs(index)) {
+        item.classList.add('current')
+      }
+    })
+  }
+  //自动轮播
+  function autoPlay() {
+    var l = oBox.style.left
+    var temp = oImg[0].offsetWidth * (oImg.length - 1)
+    if (l.replace(/px/, '') == -temp) {
+      // oBox.style.transition = 'all .1s'
+      oBox.style.left = 0
+    } else {
+      // oBox.style.transition = 'all .3s'
+      oBox.style.left = +l.replace(/px/, '') - oImg[0].offsetWidth + 'px'
+    }
+  }
+  //初始化启动定时器
+  function setIime() {
+    time = setInterval(function () {
+      autoPlay()
+      setCircle()
+    }, 1000)
+  }
+  //鼠标移入启动定时器
+  oInner.addEventListener('mouseover', function () {
+    clearInterval(time)
+  })
+  //鼠标移出关闭定时器
+  oInner.addEventListener('mouseout', function () {
+    time = setInterval(function () {
+      autoPlay()
+      setCircle()
+    }, 1000)
+  })
+  setIime()
+</script>
+
+</html>

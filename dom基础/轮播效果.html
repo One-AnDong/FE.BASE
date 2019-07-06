@@ -81,41 +81,36 @@
     var oImg = document.querySelectorAll('.banner-pic')
     var oBtnL = document.querySelector('.btn-l')
     var oBtnR = document.querySelector('.btn-r')
-    var timerId = setInterval(setTime, 800)
+    var timerId = setInterval(function () {
+      index++
+      setTime()
+    }, 800)
     oBanner.addEventListener('mouseover', function () {
       clearInterval(timerId)
 
     })
     oBanner.addEventListener('mouseout', function () {
-      timerId = setInterval(setTime, 800)
+      timerId = setInterval(function () {
+        index++
+        setTime()
+      }, 800)
     })
     oBtnL.addEventListener('click', function () {
-      var l = oBox.style.left
-      if (l === '0px') {
-        oBox.style.left = -(oImg[0].offsetWidth * (oImg.length - 1)) + 'px'
-      } else {
-        console.log(l.replace(/px/, ''))
-        oBox.style.left = +l.replace(/px/, '') + oImg[0].offsetWidth + 'px'
-      }
+      index--
+      setTime()
     })
     oBtnR.addEventListener('click', function () {
-      var l = oBox.style.left
-      var temp = oImg[0].offsetWidth * (oImg.length - 1)
-      if (l.replace(/px/, '') == -temp) {
-        oBox.style.left = 0
-      } else {
-        console.log(l.replace(/px/, ''))
-        oBox.style.left = +l.replace(/px/, '') - oImg[0].offsetWidth + 'px'
-      }
+      index++
+      setTime()
     })
 
     function setTime() {
-      if (index < oImg.length) {
-        oBox.style.left = -(oImg[0].offsetWidth * index) + 'px'
-        index++
-      } else {
+      if (index > oImg.length - 1) {
         index = 0
+      } else if (index < 0) {
+        index = oImg.length - 1
       }
+      oBox.style.left = -(oImg[0].offsetWidth * index) + 'px'
     }
   </script>
 </body>

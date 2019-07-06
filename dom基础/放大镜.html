@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .box {
+      width: 450px;
+      height: 450px;
+      border: 1px solid #aaa;
+      position: relative;
+      top: 100px;
+      left: 100px;
+    }
+
+    .small {
+      width: 450px;
+      height: 450px;
+      position: absolute;
+    }
+
+    .mask {
+      position: absolute;
+      background-color: rgba(255, 255, 0, .3);
+      width: 225px;
+      height: 225px;
+      top: 0;
+      left: 0;
+      display: none;
+    }
+
+    .big {
+      width: 450px;
+      height: 450px;
+      border: 1px solid #aaa;
+      position: absolute;
+      left: 500px;
+      top: 0;
+      overflow: hidden;
+      display: none;
+    }
+
+    .big>img {
+      width: 900px;
+      height: 900px;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="small">
+      <img src="./images/s.jpg" alt="">
+      <div class="mask"></div>
+    </div>
+    <div class="big">
+      <img src="./images/big.jpg" alt="">
+    </div>
+  </div>
+</body>
+<script>
+  const oSmall = document.querySelector('.small')
+  const oMask = document.querySelector('.mask')
+  const oBig = document.querySelector('.big')
+  const oImg = document.querySelector('.big img')
+  const oBox = document.querySelector('.box')
+  oSmall.addEventListener('mouseover', function () {
+    oMask.style.display = 'block'
+    oBig.style.display = 'block'
+
+  })
+  oSmall.addEventListener('mouseout', function () {
+    oMask.style.display = 'none'
+    oBig.style.display = 'none'
+  })
+  oSmall.addEventListener('mousemove', function (e) {
+    let x = e.pageX - oBox.offsetLeft - (oMask.offsetWidth / 2)
+    let y = e.pageY - oBox.offsetTop - (oMask.offsetHeight / 2)
+    x = x < 0 ? 0 : x
+    y = y < 0 ? 0 : y
+    x = x > oSmall.offsetWidth - oMask.offsetWidth ? oSmall.offsetWidth - oMask.offsetWidth : x
+    y = y > oSmall.offsetHeight - oMask.offsetHeight ? oSmall.offsetHeight - oMask.offsetHeight : y
+    oMask.style.left = x + 'px'
+    oMask.style.top = y + 'px'
+    console.log(x, y)
+    oImg.style.left = x * (oImg.offsetWidth / oSmall.offsetWidth) * -1 + 'px'
+    oImg.style.top = y * (oImg.offsetHeight / oSmall.offsetHeight) * -1 + 'px'
+
+  })
+</script>
+
+</html>

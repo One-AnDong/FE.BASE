@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>放大镜效果</title>
+  <style>
+    .small {
+      position: relative;
+      float: left;
+      width: 600px;
+      height: 600px;
+      line-height: 500px;
+      border: 1px solid #666
+    }
+
+    .small__img {
+      width: 600px;
+      height: 600px;
+    }
+
+    .small__box {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 300px;
+      border: 1px dashed skyblue;
+      background: rgba(0, 0, 0, .3);
+    }
+
+    .big {
+      position: relative;
+      float: left;
+      margin-left: 50px;
+      border: solid 1px #666;
+      width: 600px;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .big__img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1200px;
+      height: 1200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="small">
+    <img class="small__img" src="./images/qf.jpeg" alt="">
+    <div class="small__box" id="move"></div>
+  </div>
+  <div class="big">
+    <img src="./images/qf.jpeg" alt="" class="big__img">
+  </div>
+  <script>
+    const move = document.getElementById('move')
+    const small = document.querySelector('.small')
+    const oImg = document.querySelector('.small__img')
+    const big = document.querySelector('.big')
+    const bigImg = document.querySelector('.big__img')
+    move.addEventListener('mouseover', function () {
+      small.addEventListener('mousemove', function (e) {
+        let x = e.pageX - small.offsetLeft - (move.offsetWidth / 2)
+        let y = e.pageY - small.offsetTop - (move.offsetHeight / 2)
+        x = x < 0 ? 0 : x
+        y = y < 0 ? 0 : y
+        let maxX = small.clientWidth - move.offsetWidth
+        let maxY = small.clientHeight - move.offsetHeight
+        console.log(maxX, maxY)
+        x = x > maxX ? maxX : x
+        y = y > maxY ? maxY : y
+        move.style.left = x + 'px'
+        move.style.top = y + 'px'
+
+        // big.style.left = x * (big.offsetWidth / oImg.offsetWidth) * -1 + 'px'
+        // big.style.top = y * (big.offsetHeight / oImg.offsetHeight) * -1 + 'px'
+
+        /**
+         *  小盒当前距离/小盒最大距离 = 大图当前距离/ 大图最大距离
+         * ==》 大图当前距离 = 小盒当前距离/小盒最大距离 *大图最大距离
+         * 大图最大距离 = 大图宽高 - 大盒子宽高
+         */
+        let bigY = big.clientHeight - bigImg.offsetHeight
+        let bigX = big.clientWidth - bigImg.offsetWidth
+        let imgX = (x / maxX) * bigX
+        let imgY = (y / maxY) * bigY
+        bigImg.style.left = imgX + 'px'
+        bigImg.style.top = imgY + 'px'
+        console.log(oImg.style.left)
+
+      })
+    })
+  </script>
+</body>
+
+</html>

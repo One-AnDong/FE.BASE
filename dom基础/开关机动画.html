@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    .box {
+      width: 322px;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      overflow: hidden;
+    }
+
+    span {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .bd {
+      height: 105px;
+      transition: all 600ms;
+    }
+
+    .box {
+      transition: all 600ms;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="box">
+    <span id="closeButton"></span>
+    <div class="hd" id="headPart">
+      <img src="./images/t.jpg" alt="" />
+    </div>
+    <div class="bd" id="bottomPart">
+      <img src="./images/b.jpg" alt="" />
+    </div>
+  </div>
+</body>
+<script>
+  const oBottom = document.getElementById('bottomPart')
+  const oBox = document.getElementById('box')
+  const oBtn = document.getElementById('closeButton')
+  oBtn.addEventListener('click', function () {
+    oBottom.style.height = 0
+  })
+  oBox.addEventListener('transitionend', function () {
+    oBox.style.width = 0
+  })
+</script>
+
+</html>
