@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>移动端的三个事件</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0
+    }
+
+    body {
+      height: 1000px;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background: red;
+      transform: translate()
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box"></div>
+  <script>
+    const oBox = document.querySelector('.box')
+    document.addEventListener('touchstart', function (e) {
+      console.log('视口坐标：', e.touches[0].clientX)
+      console.log('页面中的坐标：', e.touches[0].pageX)
+      console.log('屏幕中的坐标：', e.touches[0].screenX)
+    })
+    document.addEventListener('touchmove', function (e) {
+      if (e.touches.length > 1) return
+      let x = e.touches[0].clientX - oBox.offsetWidth / 2
+      let y = e.touches[0].clientY - oBox.offsetHeight / 2
+      oBox.style.transform = `translate(${x}px,${y}px)`
+    })
+  </script>
+</body>
+
+</html>

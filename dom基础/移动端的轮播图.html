@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    nav {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    nav>ul {
+      display: flex;
+      /* 多了前后的两张 */
+      width: 800%;
+      /* 动画不能一开始就加，如果一开始就加了，会导致我们第一次的切换也是以动画的形式进行的 */
+      /* transition:transform 1s; */
+    }
+
+    li {
+      flex: 1;
+    }
+
+    li img {
+      width: 100%;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <!-- li*6>a[#]>img[src=./img/$.jpg] -->
+    <!-- 为了实现无缝滚动，把图片列表前后加上1张，前后多了一张，要记得把ul的宽度改成 800% -->
+    <ul>
+      <li><a href="#"><img src="./img/6.jpg" alt=""></a></li>
+      <li><a href="#"><img src="./img/1.jpg" alt=""></a></li>
+      <li><a href="#"><img src="./img/2.jpg" alt=""></a></li>
+      <li><a href="#"><img src="./img/3.jpg" alt=""></a></li>
+      <li><a href="#"><img src="./img/4.jpg" alt=""></a></li>
+      <li><a href="#"><img src="./img/5.jpg" alt=""></a></li>
+      <li><a href="#"><img src="./img/6.jpg" alt=""></a></li>
+      <li><a href="#"><img src="./img/1.jpg" alt=""></a></li>
+    </ul>
+  </nav>
+</body>
+<script src="./lib/zepto.js"></script>
+<script src="./lib/touch.js"></script>
+<script>
+  // //普通版本
+  // let index = 1
+  // setMove()
+  // $('nav').on('swipeLeft', swipeLeft)
+  // $('nav').on('swipeRight', swipeRight)
+
+  // $('ul').on('transitionend', transitionEnd)
+
+  // function setMove() {
+  //   let target = $(this).width() * index * -1
+  //   $('ul').css('transform', `translate(${target}px)`)
+  // }
+
+  // function swipeRight() {
+  //   index--
+  //   $('ul').css('transition', 'all 200ms')
+  //   setMove()
+  // }
+
+  // function swipeLeft() {
+  //   index++
+  //   $('ul').css('transition', 'all 200ms')
+  //   setMove()
+  // }
+
+  // function transitionEnd() {
+  //   if (index >= $('ul>li').length - 1) {
+  //     index = 1
+  //     $('ul').css('transition', '')
+  //     setMove()
+  //   }
+  //   if (index <= 0) {
+  //     index = $('ul>li').length - 2
+  //     $('ul').css('transition', '')
+  //     setMove()
+  //   }
+  // }
+
+  //es6版本
+  class Swiper {
+    constructor(container = ".swiper-container", wrapper = '.swiper-wrapper', slide = '.swiper-slide') {
+      this.swiperContainer = $(container)
+      this.swiperWrapper = $(wrapper)
+      this.swiperSlide = $(slide)
+      this.index
+      this.init()
+    }
+    init() {
+      this.index = 1
+      this.setMove()
+      $(this.swiperContainer).on('swipeLeft', () => {
+        this.swipeLeft()
+      })
+      $(this.swiperContainer).on('swipeRight', () => {
+        this.swipeRight()
+      })
+      $(this.swiperWrapper).on('transitionend', () => {
+        this.transitionEnd()
+      })
+    }
+    setMove() {
+      let target = $(this.swiperContainer).width() * this.index * -1
+      $(this.swiperWrapper).css('transform', `translate(${target}px)`)
+    }
+    swipeRight() {
+      this.index--
+      $(this.swiperWrapper).css('transition', 'all 200ms')
+      this.setMove()
+    }
+    swipeLeft() {
+      this.index++
+      $(this.swiperWrapper).css('transition', 'all 200ms')
+      this.setMove()
+    }
+    transitionEnd() {
+      if (this.index >= $(this.swiperSlide).length - 1) {
+        this.index = 1
+        $(this.swiperWrapper).css('transition', '')
+        this.setMove()
+      }
+      if (this.index <= 0) {
+        this.index = $(this.swiperSlide).length - 2
+        $(this.swiperWrapper).css('transition', '')
+        this.setMove()
+      }
+    }
+  }
+  new Swiper('nav', 'ul', 'ul>li')
+  //解绑事件版本
+  // let index = 1
+  // setMove()
+  // $('nav').on('swipeLeft', swipeLeft)
+  // $('nav').on('swipeRight', swipeRight)
+
+  // $('ul').on('transitionend', transitionEnd)
+
+  // function setMove() {
+  //   let target = $(this).width() * index * -1
+  //   $('ul').css('transform', `translate(${target}px)`)
+  // }
+
+  // function swipeRight() {
+  //   index--
+  //   if (index <= 0) {
+  //     $('nav').off('swipeRight', swipeRight)
+  //   }
+  //   $('ul').css('transition', 'all 600ms')
+  //   setMove()
+  // }
+
+  // function swipeLeft() {
+  //   index++
+  //   if (index >= $('ul>li').length - 1) {
+  //     $('nav').off('swipeLeft', swipeLeft)
+  //   }
+  //   $('ul').css('transition', 'all 600ms')
+  //   setMove()
+  // }
+
+  // function transitionEnd() {
+  //   if (index >= $('ul>li').length - 1) {
+  //     index = 1
+  //     $('ul').css('transition', '')
+  //     setMove()
+  //     $('nav').on('swipeLeft', swipeLeft)
+  //   }
+  //   if (index <= 0) {
+  //     index = $('ul>li').length - 2
+  //     $('ul').css('transition', '')
+  //     setMove()
+  //     $('nav').on('swipeRight', swipeRight)
+
+  //   }
+  // }
+</script>
+
+</html>

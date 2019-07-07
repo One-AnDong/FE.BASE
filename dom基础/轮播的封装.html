@@ -138,16 +138,15 @@
    * @parame  obj   必选【Object】    
    */
   function Swiper(obj) {
-    this.imgBox = obj.imgBox
-    this.circleBox = obj.circleBox
-    this.btnLeft = obj.btnLeft
-    this.btnRight = obj.btnRight
-    this.targetBox = obj.targetBox
+    this.imgBox = document.querySelector(obj.imgBox)
+    this.circleBox = document.querySelectorAll(obj.circleBox)
+    this.btnLeft = document.querySelector(obj.btnLeft)
+    this.btnRight = document.querySelector(obj.btnRight)
+    this.targetBox = document.querySelector(obj.targetBox)
     this.index
     this.circle
     this.moveId
     this.init()
-
   }
   Swiper.prototype = {
     consturctor: 'Swiper',
@@ -173,11 +172,11 @@
       })
 
       //鼠标移入启动定时器
-      targetBox.addEventListener('mouseover', () => {
+      this.targetBox.addEventListener('mouseover', () => {
         clearInterval(this.moveId)
       })
       //鼠标移出关闭定时器
-      targetBox.addEventListener('mouseout', () => {
+      this.targetBox.addEventListener('mouseout', () => {
         this.moveId = setInterval(() => {
           this.index++
           this.setMove(this.imgBox, this.circleBox)
@@ -228,17 +227,12 @@
 
 
   //调用
-  const imgBox = document.getElementById('imglist')
-  const circleBox = document.querySelectorAll('.list>i')
-  const btnLeft = document.querySelector('.arrow-left')
-  const btnRight = document.querySelector('.arrow-right')
-  const targetBox = document.querySelector('#inner')
   new Swiper({
-    imgBox,
-    circleBox,
-    btnLeft,
-    btnRight,
-    targetBox
+    imgBox: '#imglist',
+    circleBox: '.list>i',
+    btnLeft: '.arrow-left',
+    btnRight: '.arrow-right',
+    targetBox: '#inner'
   })
 </script>
 
