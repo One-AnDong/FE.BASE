@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .wrap {
+      width: 330px;
+      height: 30px;
+      margin: 100px auto 0;
+      padding-left: 10px;
+      background-image: url(images/bg.jpg);
+    }
+
+    .wrap li {
+      background-image: url(images/libg.jpg);
+    }
+
+    .wrap>ul>li {
+      float: left;
+      margin-right: 10px;
+      position: relative;
+    }
+
+    .wrap a {
+      display: block;
+      height: 30px;
+      width: 100px;
+      text-decoration: none;
+      color: #000;
+      line-height: 30px;
+      text-align: center;
+    }
+
+    .wrap li ul {
+      position: absolute;
+      top: 30px;
+      display: none;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="wrap">
+    <ul>
+      <li>
+        <a href="javascript:void(0);">一级菜单1</a>
+        <ul>
+          <li><a href="javascript:void(0);">二级菜单1</a></li>
+          <li><a href="javascript:void(0);">二级菜单2</a></li>
+          <li><a href="javascript:void(0);">二级菜单3</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="javascript:void(0);">一级菜单1</a>
+        <ul>
+          <li><a href="javascript:void(0);">二级菜单1</a></li>
+          <li><a href="javascript:void(0);">二级菜单2</a></li>
+          <li><a href="javascript:void(0);">二级菜单3</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="javascript:void(0);">一级菜单1</a>
+        <ul>
+          <li><a href="javascript:void(0);">二级菜单1</a></li>
+          <li><a href="javascript:void(0);">二级菜单2</a></li>
+          <li><a href="javascript:void(0);">二级菜单3</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</body>
+<script src="./lib/js/jquery-1.8.1.js "></script>
+<script>
+  /*
+  效果：
+    1.鼠标移入，找到对应的二级菜单，以动画的形式慢慢的出现 - 高度从0-100%
+    2.鼠标移出，对应的二级菜单，慢慢的高度消失
+*/
+  // 获取一级菜单，注册鼠标的移入事件
+  $('.wrap>ul>li').on('mouseover', function () {
+    // 找到对应的二级菜单，二级菜单就是一级菜单的子元素ul
+    // 把当前的二级菜单显示
+    // $(this).children('ul').css({
+    //   display : 'block',
+    //   height : 0
+    // }).animate({height:90},1000);
+
+    // jq里面封装了一组用户上滑和下划的动画
+    /*
+      jq对象.slideUp(持续时间,回调函数)  - 收起、上滑动画
+      jq对象.slideDown() - 下滑，展开动画
+      jq对象.slideToggle() - 在上滑和下划之间切换
+    */
+    $(this).siblings().children('ul').stop(true, false).hide()
+    $(this).children('ul').slideDown(1000, () => {
+      console.log('动画结束了');
+    });
+
+  })
+
+  // 注册鼠标移出，实现上拉动画
+  $('.wrap>ul>li').on('mouseout', function () {
+    $(this).children('ul').stop(true, true).slideUp(1000);
+  });
+</script>
+
+</html>

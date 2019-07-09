@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>基本操作</title>
+  <link rel="stylesheet" href="./styles/css/main.css">
+  <style>
+    .box {
+      width: 100px;
+      height: 100px;
+      background: red;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="button" value="开" class="btn">
+  <input type="button" value="关" class="btn">
+  <div class="box"></div>
+</body>
+<script src="./lib/js/jquery-1.8.1.js"></script>
+<script>
+  $(function () {
+    $('.btn:first-of-type').on('click', () => {
+      $('body').css('backgroundColor', '#fff')
+      $('.box').toggle()
+    })
+    $('.btn:last-of-type').on('click', () => {
+      $('body').css('backgroundColor', '#333')
+    })
+  })
+</script>
+
+</html>
