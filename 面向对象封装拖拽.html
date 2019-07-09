@@ -24,5 +24,57 @@
 <body>
   <div class="box"></div>
 </body>
+<script>
+  //原生封装
+  //判断浏览器的transform属性
+  function getTransform() {
+    const transformArr = ['transform', 'webkitTransform', 'MozTransform', 'msTransform', 'OTransform']
+    const divStyle = document.createElement('div').style
+    let len = transformArr.length
+    for (let i = 0; i < len; i++) {
+      if (transformArr[i] in divStyle) {
+        return transformArr[i]
+      }
+    }
+  }
+  //获取属性值的兼容写法
+  function getStyle(elem, property) {
+    return document.defaultView.getComputedStyle ? document.defaultView.getComputedStyle(elem, null)[property] : elem
+      .currentStyle[property]
+  }
+  //获取元素初始位置
+  function getTargetPos(elem) {
+    var pos = {
+      x: 0,
+      y: 0
+    }
+    var transform = getTransform()
+    if (transform) {
+      var transformValue = getStyle(elem, transform)
+      if (transform === 'none') {
+        return pos
+      } else {
+        var temp = transformValue.match(/\d/g)
+        return pos = {
+          x: parseInt(temp[5].trim()),
+          y: parseInt(temp[6].trim())
+        }
+      }
+    } else {
+      if (getStyle(elem, 'position') === 'static') {
+        elem.style.position = "relative"
+        return pos
+      } else {
+        var tempL = getStyle(elem, 'left') ? getStyle(elem, 'left') : 0
+        var tempT = getStyle(elem, 'top') ? getStyle(elem, 'top') : 0
+
+        return pos = {
+          x: parseInt(tempL),
+          y: parseInt(tempT)
+        }
+      }
+    }
+  }
+</script>
 
 </html>
