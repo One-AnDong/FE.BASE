@@ -22,10 +22,20 @@
 </head>
 
 <body>
-  <div class="box"></div>
+  <div class="box" id="box"></div>
 </body>
 <script>
   //原生封装
+  var oBox = document.getElementById('box'),
+    startX = 0,
+    startY = 0,
+    currentX = 0,
+    currentY = 0,
+    distanceX = 0,
+    distanceY = 0,
+    initPosX = 0,
+    initPosY = 0
+
   //判断浏览器的transform属性
   function getTransform() {
     const transformArr = ['transform', 'webkitTransform', 'MozTransform', 'msTransform', 'OTransform']
@@ -54,10 +64,10 @@
       if (transform === 'none') {
         return pos
       } else {
-        var temp = transformValue.match(/\d/g)
+        var temp = transformValue.match(/-?\d+/g)
         return pos = {
-          x: parseInt(temp[5].trim()),
-          y: parseInt(temp[6].trim())
+          x: parseInt(temp[4].trim()),
+          y: parseInt(temp[5].trim())
         }
       }
     } else {
@@ -75,6 +85,44 @@
       }
     }
   }
+  //移动函数
+  function setTargetPos(elem, pos) {
+    var transform = getTransform()
+    if (transform) {
+      elem.style.transform = `translate(${pos.x}px,${pos.y}px)`
+    } else {
+      elem.style.left = pos.x + 'px'
+      elem.style.top = pos.y + 'px'
+    }
+  }
+  //事件函数
+  function move(e) {
+    currentX = e.pageX
+    currentY = e.pageY
+    distanceX = currentX - startX
+    distanceY = currentY - startY
+    console.log(getTargetPos(oBox)['x'])
+    var pos = {
+      x: initPosX + distanceX,
+      y: initPosY + distanceY
+    }
+    setTargetPos(oBox, pos)
+  }
+
+  function init() {
+    oBox.addEventListener('mousedown', function (e) {
+      startX = e.pageX
+      startY = e.pageY
+      initPosX = getTargetPos(oBox)['x']
+      initPosY = getTargetPos(oBox)['y']
+      document.addEventListener('mousemove', move)
+
+      document.addEventListener('mouseup', function () {
+        document.removeEventListener('mousemove', move)
+      })
+    })
+  }
+  init()
 </script>
 
 </html>
