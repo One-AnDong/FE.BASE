@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .box {
+      /* width: 500px;
+      height: 300px; */
+      margin: 0 auto;
+    }
+
+    .box span {
+      font-size: 150px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <span>🧡</span>
+    <span>🧡</span>
+    <span>🧡</span>
+    <span>🧡</span>
+    <span>🧡</span>
+  </div>
+  <script src="./lib/js/jquery-1.8.1.js"></script>
+  <script>
+    const oSpan = $('.box>span')
+    let score = 0
+    //鼠标移入事件
+    oSpan.on('mouseenter', function () {
+      let index = $(this).index()
+      oSpan.each(function (i, item) {
+        if (i <= index) {
+          $(item).text('❤️')
+        } else {
+          $(item).text('🧡')
+        }
+      })
+    })
+    //鼠标移出事件
+    oSpan.on('mouseout', function () {
+      oSpan.each(function (i, item) {
+        if (i < score) {
+          $(item).text('❤️')
+        } else {
+          $(item).text('🧡')
+        }
+      })
+    })
+    //
+    oSpan.on('click', function () {
+      let index = $(this).index()
+      score = index + 1
+    })
+  </script>
+</body>
+
+</html>

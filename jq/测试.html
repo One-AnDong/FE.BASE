@@ -17,22 +17,41 @@
   </style>
 </head>
 
+
 <body>
+
+  <button class="btn">按下</button>
   <ul>
     <li>1</li>
     <li>2</li>
     <li>3</li>
   </ul>
-  <div class="box"></div>
+  <div class=" box"></div>
   <script src="./lib/js/jquery-1.8.1.js"></script>
-
+  <script>
+    $('.box').animate({
+      ei
+    }, 2000, function () {
+      console.log(111)
+    })
+  </script>
   <script>
     $('ul >li').on('mouseover', function () {
-      debugger
       $(this)
         .css('background', 'red')
         .siblings()
         .css('background', '')
+    })
+    $('.btn').on('click', function () {
+      // $('<h1>这是</h1>').appendTo($('ul'))
+      // $('ul').append($('<span>test</span>'))
+      // $('<h1>这是</h1>').prependTo($('ul'))
+      // $('ul').prepend($('<span>test</span>'))
+      // $('ul').before($('<h1>test</h1>'))
+      // $('ul').after($('<h1>test</h1>'))
+      console.log($('ul').children())
+      console.log($('ul').parents())
+
     })
   </script>
 </body>

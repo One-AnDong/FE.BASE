@@ -17,7 +17,7 @@ class Drag {
       this.startY = e.pageY
       this.initPosX = this.getTargetPos(this.oBox)['x']
       this.initPosY = this.getTargetPos(this.oBox)['y']
-      var seft = this
+      var seft = this09
       document.addEventListener('mousemove', move)
       document.addEventListener('mouseup', () => {
         document.removeEventListener('mousemove', move)
