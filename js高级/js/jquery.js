@@ -30,9 +30,16 @@
         return document.defaultView.getComputedStyle(this)[property]
       }
       //设置功能
+      const arr = ['background', 'color', 'backgroundColor']
+
       this.each(function(item) {
-        item.style[property] =
-          property.toString().indexOf('px') === -1 ? value + 'px' : value
+        //判断如果是数组内的的元素则无需添加单位直接赋值
+        if (arr.indexOf(property) !== -1) {
+          item.style[property] = value
+        } else {
+          item.style[property] =
+            property.toString().indexOf('px') === -1 ? value + 'px' : value
+        }
       })
       return this
     },
