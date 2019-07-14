@@ -1,0 +1,33 @@
+/* tab栏模块
+-----------------------------------------*/
+.container {
+  width: 100%;
+  border: 1px solid skyblue;
+  border-radius: 5px;
+}
+.nav {
+  display: flex;
+}
+.nav__item {
+  flex: 1;
+  padding: 5px 0;
+  text-align: center;
+}
+.content {
+  position: relative;
+  border-top: 1px solid #666;
+  padding-top: 30%;
+}
+.content_item {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.nav__item_active {
+  background: skyblue;
+  color: white;
+}
+.content__item_active {
+  display: block;
+}
