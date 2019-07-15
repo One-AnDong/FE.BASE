@@ -10,7 +10,9 @@ class Tab {
     options = Object.assign(
       {
         navId: '#nav',
-        contentId: '#content'
+        contentId: '#content',
+        navActive: 'nav__item_active',
+        contentActive: 'content__item_active'
       },
       options
     )
@@ -20,7 +22,7 @@ class Tab {
     } else {
       return
     }
-
+    this.options = options
     //提升代码的健壮性
     this.$nav = options.navId.startsWith('#')
       ? options.navId
@@ -55,9 +57,9 @@ class Tab {
    */
   setTab(tabList, tabItem) {
     ;[].map.call(tabList, item => {
-      item.classList.remove('nav__item_active')
+      item.classList.remove(this.options.navActive)
     })
-    tabItem.classList.add('nav__item_active')
+    tabItem.classList.add(this.options.navActive)
   }
   /**
    * @description 设置tab显示的内容
@@ -66,9 +68,10 @@ class Tab {
   setContent(currentTab) {
     const oCont = document.querySelector(this.$content).children
     let id = currentTab.dataset.tab
+    //移出class
     ;[].map.call(oCont, item => {
-      item.classList.remove('content__item_active')
+      item.classList.remove(this.options.contentActive)
     })
-    oCont[id].classList.add('content__item_active')
+    oCont[id].classList.add(this.options.contentActive)
   }
 }

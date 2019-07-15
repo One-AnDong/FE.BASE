@@ -1,10 +1,11 @@
 /* tab栏模块
------------------------------------------*/
+-------------------------------------------*/
 .container {
   width: 100%;
   border: 1px solid skyblue;
   border-radius: 5px;
 }
+/* tab导航 */
 .nav {
   display: flex;
 }
@@ -17,6 +18,7 @@
   padding: 5px 0;
   text-align: center;
 }
+/* tab内容 */
 .content {
   position: relative;
   border-top: 1px solid #666;
