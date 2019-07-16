@@ -22,46 +22,54 @@
 <body>
   <div class="box"></div>
 </body>
+<script src="./简单的原型继承实现.js"></script>
 <script>
-  function Person() {
-    this.name = 'joe'
-    this.age = 12
-  }
-  // Person.prototype = {
-  //   getName: function () {
-  //     console.log(this.name)
-  //   }
+  // function Person() {
+  //   this.name = 'joe'
+  //   this.age = 12
   // }
-  Person.prototype.getName = function () {
-    console.log(this.name)
-  }
-  var p1 = new Person()
-  console.dir(p1)
-  console.dir(Person)
-  //简单实现继承
-  function create(pro, optios) {
-    var temp = {}
-    temp.__proto__ = pro
-    Object.defineProperties(temp, optios)
-    return temp
-  }
+  // // Person.prototype = {
+  // //   getName: function () {
+  // //     console.log(this.name)
+  // //   }
+  // // }
+  // Person.prototype.getName = function () {
+  //   console.log(this.name)
+  // }
+  // var p1 = new Person()
+  // console.dir(p1)
+  // console.dir(Person)
+  // //简单实现继承
+  // function create(pro, optios) {
+  //   var temp = {}
+  //   temp.__proto__ = pro
+  //   Object.defineProperties(temp, optios)
+  //   return temp
+  // }
 
-  function Student(name, age, score) {
-    Person.call(this, name, age)
-    this.score = score
-  }
-  Student.prototype = create(Person.prototype, {
-    constructor: {
-      value: 'Student'
-    },
-    getScore: {
-      value: function () {
-        return this.score
-      }
-    }
-  })
-  var s1 = new Student(99)
-  console.dir(Student)
+  // function Student(name, age, score) {
+  //   Person.call(this, name, age)
+  //   this.score = score
+  // }
+  // Student.prototype = create(Person.prototype, {
+  //   constructor: {
+  //     value: 'Student'
+  //   },
+  //   getScore: {
+  //   `    value: function () {
+  //       return this.score
+  //     }
+  //   }
+  // })
+  // var s1 = new Student(99)
+  // console.dir(Student)
+  // new Promise(function (resolve, reject) {
+  //   reject('hello world')
+  // }).then(function (res) {
+  //   console.log(res)
+  // }).catch(function (err) {
+  //   console.log(err)
+  // })
 </script>
 
 </html>
