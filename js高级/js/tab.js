@@ -12,7 +12,8 @@ class Tab {
         navId: '#nav',
         contentId: '#content',
         navActive: 'nav__item_active',
-        contentActive: 'content__item_active'
+        contentActive: 'content__item_active',
+        event: 'mouseover'
       },
       options
     )
@@ -30,7 +31,7 @@ class Tab {
     this.$content = options.contentId.startsWith('#')
       ? options.contentId
       : '#' + options.contentId
-
+    this.current = 0
     this.init()
   }
   init() {
@@ -41,8 +42,8 @@ class Tab {
     //获取tab导航栏对象
     const tabs = document.querySelector(this.$nav)
     //调用map循环添加点击事件
-    ;[].map.call(tabs.children, (item, index) => {
-      item.addEventListener('click', () => {
+    ;[].map.call(tabs.children, item => {
+      item.addEventListener(this.options.event, () => {
         //设置当前tab高亮
         this.setTab(tabs.children, item)
         //设置显示对应内容
@@ -68,6 +69,7 @@ class Tab {
   setContent(currentTab) {
     const oCont = document.querySelector(this.$content).children
     let id = currentTab.dataset.tab
+    this.current = id
     //移出class
     ;[].map.call(oCont, item => {
       item.classList.remove(this.options.contentActive)
@@ -75,3 +77,5 @@ class Tab {
     oCont[id].classList.add(this.options.contentActive)
   }
 }
+//对外暴露接口
+export default Tab

@@ -15,7 +15,90 @@
     $('.box').css('width', 100).addClass('hahahah').removeClass('test').css('height', 100).css('background', 'red')
     // $('.box').addClass('haha')
     // $('.box').removeClass('test')
-    console.dir($('.box'))
+    // console.dir($('.box'))
+
+    // function sum(num) {
+    //   if (num <= 1) return 1
+    //   return num * sum(num - 1)
+
+    // }
+    // console.log(sum(10))
+    // console.log(sum(3))
+    // console.log(sum(100))
+    //测试下栈内存调用限制内函数能调用多少次
+    // var i = 0
+
+    // function test() {
+    //   i++
+    //   test()
+    // }
+    // try {
+    //   test()
+    // } catch (error) {
+    //   console.log(error + '调用了' + i)
+    // }
+
+    //数列
+    // function sum(n) {
+    //   if (n === 1 || n === 2) {
+    //     return 1
+    //   }
+    //   return sum(n - 1) + sum(n - 2)
+    // }
+    // var str = ''
+    // for (var i = 1; i <= 10; i++) {
+    //   str = str + ' ' + (sum(i)).toString()
+    // }
+    // console.log(str)
+
+    const data = [{
+      id: 1,
+      text: '一级菜单',
+      parentId: null
+    }, {
+      id: 2,
+      text: '一级菜单',
+      parentId: null
+    }, {
+      id: 3,
+      text: '一级菜单',
+      parentId: null
+    }, , {
+      id: 4,
+      text: '二级菜单',
+      parentId: 1
+    }, {
+      id: 5,
+      text: '二级级菜单',
+      parentId: 2
+    }, {
+      id: 6,
+      text: '二级菜单',
+      parentId: 3
+    }]
+    //生成树形结构
+    function Create(arr, parentId) {
+      var temp = []
+      arr.forEach(item => {
+        if (item.parentId === parentId) {
+          temp.push(item)
+          item.child = Create(arr, item.id)
+        }
+      });
+      return temp;
+    }
+    var menuData = Create(data, null)
+    //动态生成html结构
+    function createHtml(menuData, target) {
+      const oUl = document.createElement('ul')
+      target.appendChild(oUl)
+      menuData.forEach((item) => {
+        const oLi = document.createElement('li')
+        oLi.innerHTML = `<a href="#">${item.text}</a>`
+        oUl.appendChild(oLi)
+      })
+    }
+    let oNav = document.querySelector('nav')
   </script>
 </body>
 

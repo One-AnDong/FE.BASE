@@ -47,8 +47,7 @@
   if (!Function.prototype.bind) {
     Function.prototype.bind = function(oThis) {
       if (typeof this !== 'function') {
-        // closest thing possible to the ECMAScript 5
-        // internal IsCallable function
+        //抛出错误
         throw new TypeError(
           'Function.prototype.bind - what is trying to be bound is not callable'
         )
