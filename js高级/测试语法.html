@@ -9,7 +9,47 @@
 </head>
 
 <body>
-  <script type="module" src="./js/main.js"></script>
+  <!-- <script>
+    const url = 'https://9008cf8b-d239-41e6-b557-4d48404b1de7.mock.pstmn.io/mockget'
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', url)
+    xhr.send(null)
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          try {
+            var data = xhr.response
+            console.log(JSON.parse(data))
+          } catch (error) {
+            console.log(error)
+          }
+        } else {
+          console.error('错误:', xhr.status)
+        }
+      }
+    }
+  </script> -->
+  <!-- <script type="module" src="./js/main.js"></script> -->
+  <script>
+    /*---------------------------------使用fetch------------------------------------------- */
+    const _json = {
+      "name": "joe",
+      "age": 18
+    }
+    const url = 'https://9008cf8b-d239-41e6-b557-4d48404b1de7.mock.pstmn.io/mockpost'
+    fetch(url, {
+        body: JSON.stringify(_json),
+        headers: {
+          'content-type': 'application/json'
+        },
+        method: 'POST'
+      })
+      .then(function (response) {
+        console.log(response)
+      }).catch(function (error) {
+        console.log(error)
+      })
+  </script>
 </body>
 
 </html>
