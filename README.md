@@ -6,6 +6,31 @@
 
 这个仓库包括了基础部分的一些知识，我会一直迭代更新一些东西的实现方式，虽然开始的时候比较杂，我会坚持的去更新和迭代掉一些知识点，专注于基础。
 
+# 目录结构
+
+```java
+├── dom基础
+│   ├── images
+│   ├── img
+│   └── lib
+│       └── css
+├── jq
+│   ├── images
+│   ├── lib
+│   │   ├── css
+│   │   └── js
+│   └── styles
+│       ├── css
+│       └── less
+├── js基础
+└── js高级
+    ├── css
+    ├── js
+    ├── less
+    └── static
+        └── img
+```
+
 ## 1 JS 基础
 
 ### 1 参数传递
@@ -25,6 +50,22 @@ newData[0] = 6
 newData[1][0] = 7
 console.log(data) // [1, [7, 3], 4, 5]
 console.log(newData) //[6, [7, 3], 4, 5]
+```
+
+```javascript
+//简单的对象深拷贝实现
+function deepClone(obj) {
+  const temp = {}
+  for (let key in obj) {
+    //如果该
+    if (typeof obj[key] === 'object') {
+      temp[key] = deepClone(obj[key])
+    } else {
+      temp[key] = obj[key]
+    }
+  }
+  return temp
+}
 ```
 
 ## 2 原型链
