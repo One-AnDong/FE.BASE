@@ -99,48 +99,112 @@
 <script>
   class CheckForm {
     constructor(formEle, options) {
+      //默认值设置
       formEle = formEle.startsWith('#') ? formEle : '#' + formEle
       options = Object.assign({
         btn: '.btn'
       }, options)
+      //初始化
       this.oForm = document.querySelector(formEle)
       this.options = options
+      this.aFn = []
+      //自调用
       this.init()
     }
+    //初始化函数
     init() {
       const oBtn = document.querySelector(this.options.btn)
-      const aFn = [
-        this.handleEmpty.bind(this, this.oForm.userName, '你输入的用户名为空'),
-        this.handleLength.bind(this, this.oForm.userName, 6, '你输入的用户名长度太短(最短6位)'),
-        this.handleEmpty.bind(this, this.oForm.password, '你输入的密码为空'),
-        this.handleLength.bind(this, this.oForm.password, 8, '你输入的密码长度太短(最短8位)'),
-      ]
+      const _json = [{
+        name: 'handleEmpty',
+        input: 'userName',
+        parame: {
+          msg: '您输入的用户名为空'
+        }
+      }, {
+        name: 'handleLength',
+        input: 'userName',
+        parame: {
+          msg: '您输入的用户名太短(最短6位)',
+          length: 6,
+        }
+      }, {
+        name: 'handleEmpty',
+        input: 'password',
+        parame: {
+          msg: '您输入的密码为空'
+        }
+      }, {
+        name: 'handleLength',
+        input: 'password',
+        parame: {
+          msg: '您输入的密码太短(最短8位)',
+          length: 8
+        }
+      }, {
+        name: 'handleEmpty',
+        input: 'phoneNumber',
+        parame: {
+          msg: '您输入的手机号为空'
+        }
+      }, {
+        name: 'handlePhone',
+        input: 'phoneNumber',
+        parame: {
+          msg: '你输入的不是手机号码'
+        }
+      }]
+
+      //设置数组
+      this.handleAdd(this.oForm, _json)
+      //设置点击事件
       oBtn.addEventListener('click', (e) => {
-        const status = this.getStatus(aFn)
+        const status = this.getStatus(this.aFn)
         if (status) {
           e.preventDefault()
           alert(status)
         } else {
-          alert('注册成功')
+          alert('注册成功,您的账户为')
         }
       })
     }
+
+    //获取状态
     getStatus(aFn) {
       for (let i = 0; i < aFn.length; i++) {
-        var msg = aFn[i]()
+        let msg = aFn[i]()
         if (msg) {
           return msg
         }
       }
     }
-    handleEmpty(obj, errMsg) {
-      if (obj.value === '') {
-        return errMsg
+    //处理添加数组添加
+    handleAdd(target, _json) {
+      for (let i = 0; i < _json.length; i++) {
+        //将字符串转化为变量
+        const fn = eval('this.' + _json[i].name)
+        //创建函数
+        const temp = function () {
+          return fn(target[_json[i].input], _json[i].parame)
+        }
+        this.aFn.push(temp)
       }
     }
-    handleLength(obj, length, errMsg) {
-      if (obj.value.length < length) {
-        return errMsg
+    //处理字符串空状态
+    handleEmpty(target, options) {
+      if (target.value === '') {
+        return options.msg
+      }
+    }
+    //处理字符串长度状态
+    handleLength(target, options) {
+      if (target.value.length < options.length) {
+        return options.msg
+      }
+    }
+    //处理字符串是否为手机号
+    handlePhone(target, options) {
+      if (!/^1[3|5|7|8][0-9]{9}$/.test(target.value)) {
+        return options.msg
       }
     }
   }
