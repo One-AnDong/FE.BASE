@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>观察订阅</title>
+</head>
+
+<body>
+
+</body>
+<script>
+  //订阅器
+  (function () {
+    const eventArr = []
+    const handleEvent = function () {
+      for (let i = 0; i < eventArr.length; i++) {
+        eventArr[i]()
+      }
+    }
+    const add = function (fn) {
+      eventArr.push(fn)
+    }
+    window.eventClient = {
+      handleEvent: handleEvent,
+      add: add
+    }
+  })();
+  //添加处理函数
+  eventClient.add(function () {
+    console.log('200', '请求成功')
+  })
+  //异步解耦
+  setTimeout(function () {
+    eventClient.handleEvent()
+  }, 2000)
+</script>
+
+</html>
