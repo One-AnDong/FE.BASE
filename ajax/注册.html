@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>表单注册</title>
+  <style>
+    form {
+      padding-top: 100px;
+      padding-left: 100px;
+    }
+
+    form>* {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    form-item input {
+      height: 32px;
+      border: none;
+      width: 500px;
+      box-shadow: 0 0 0 1px #e7e7e7 inset;
+      text-indent: 8px;
+    }
+
+    .pre_register,
+    .register {
+      display: inline-block;
+      width: 120px;
+      line-height: 40px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 20px;
+      text-decoration: none;
+      margin-left: 100px;
+    }
+
+    .register {
+      background-color: dodgerblue;
+      border: none;
+      outline: none;
+    }
+
+    .register:hover {
+      background-color: deepskyblue;
+    }
+
+    .disable {
+      background-color: #666;
+    }
+
+    .error::after {
+      position: absolute;
+      top: 50%;
+      transform: translate(8px, -50%);
+      color: rgb(224, 51, 51);
+      content: attr(data-error);
+    }
+
+    .correct::after {
+      position: absolute;
+      top: 50%;
+      transform: translate(8px, -50%);
+      color: rgb(95, 238, 95);
+      content: attr(data-correct);
+    }
+
+    form-item {
+      display: block;
+    }
+
+    #toast {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 9;
+    }
+
+    #toast span {
+      padding: 8px 15px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 4px;
+      -webkit-user-select: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <form>
+    <form-item class="name">
+      用&ensp;户&ensp;名：<input type="text" placeholder="请输入用户名" name='name' required="true" />
+    </form-item>
+
+    <form-item class="pwd">
+      密&emsp;&emsp;码：<input type="password" placeholder="请输入密码" name='pwd' required="true" />
+    </form-item>
+
+    <form-item class="repwd">
+      确认密码：<input type="password" placeholder="请输入密码" required="true" />
+    </form-item>
+
+    <input type="submit" class="register" value="注册">
+
+
+  </form>
+</body>
+<script src="./lib/js/jquery-1.8.1.js"></script>
+<script src="./js/ajax.js"></script>
+<script type="module">
+  import {ajaxGet,ajaxPost,addr} from './js/ajax.js'
+  const oName = $('.name input')
+  const oPwd = $('.pwd input')
+  const oRepwd = $('.repwd input')
+  const oSubmit = $('.register')
+  //失去焦点的时候判断用户名是否存在，存在的化提示
+  oName.on('blur',function(){
+    let parame = oName.val()
+    const url = addr('/api/isUserNameExist?name='+parame)
+    ajaxGet(url).then(function(res){
+      if(res.code === 401){
+        alert(res.msg)
+      }
+    })
+  })
+  //判断两次密码是否相同
+  oRepwd.on('blur',handlePwd)
+  function handlePwd(){
+    let pwdVal = oPwd.val()
+    let repwdVal = oRepwd.val()
+    if(pwdVal !== repwdVal){
+      alert('两次的输入的密码不相同')
+      return false
+    }
+    return true
+  }
+  //点击注册的时候提交
+  oSubmit.on('click',function(e){
+    //终止默认行为
+    window.event.preventDefault()
+    let name = oName.val()
+    let pwd = oName.val()
+    //判断密码是否相同
+    let temp = handlePwd()
+    if(!temp) return
+    if(!name||!pwd){
+      alert('用户名密码不能为空')
+      return 
+    }else{
+      //发起请求
+      const url = addr('/api/doRegister')
+      const data=`name=${name}&pwd=${pwd}`
+      ajaxPost(url,{data:data}).then(function(res){
+        const data = res
+        if(data.code ===200){
+          alert(data.msg)
+        }else{
+          alert(data.msg)
+        }
+      })
+    }
+  })
+ 
+</script>
+
+</html>

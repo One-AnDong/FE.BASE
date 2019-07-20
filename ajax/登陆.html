@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    form {
+      padding-top: 100px;
+      padding-left: 100px;
+    }
+
+    form>div {
+      margin-bottom: 15px;
+    }
+
+    input {
+      height: 32px;
+      border: none;
+      width: 500px;
+      box-shadow: 0 0 0 1px #e7e7e7 inset;
+      text-indent: 8px;
+    }
+
+    .login,
+    .register {
+      display: inline-block;
+      width: 120px;
+      line-height: 40px;
+      border-radius: 6px;
+      background-color: dodgerblue;
+      color: #fff;
+      font-size: 16px;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+
+    .login:hover,
+    .register:hover {
+      background-color: deepskyblue;
+    }
+
+    .login {
+      margin-right: 15px;
+      margin-left: 80px;
+    }
+
+    #toast {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 9;
+    }
+
+    #toast span {
+      padding: 8px 15px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 4px;
+      -webkit-user-select: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <form>
+    <div class="name">
+      用&ensp;户&ensp;名：<input class="" type="text" placeholder="请输入用户名" name='name'>
+    </div>
+
+    <div class="pwd">
+      密&emsp;&emsp;码：<input type="password" placeholder="请输入密码" name='pwd'>
+    </div>
+
+    <div class="login">登录</div>
+    <a class="register" href="./register.html">注册</a>
+  </form>
+  <script src="./lib/js/jquery-1.8.1.js"></script>
+  <script src="./js/ajax.js"></script>
+  <script type="module">
+    import {ajaxGet,ajaxPost,addr} from './js/ajax.js'
+    const oName = $('.name input')
+    const oPwd = $('.pwd input')
+    const oLogin = $('.login')
+    oLogin.on('click',function(){
+      const name = oName.val()
+      const pwd = oPwd.val()
+      if(!name||!pwd){
+        alert('用户名密码不能为空')
+      }else{
+        const url = addr('/api/doLogin')
+        let data = `name=${name}&pwd=${pwd}`
+        ajaxPost(url,{data:data}).then(function(res){
+          const data = res
+          if(data.code === 200){
+            alert(data.msg)
+          }else{
+            alert(data.msg)
+          }
+        })
+      }
+    })
+  </script>
+</body>
+
+</html>

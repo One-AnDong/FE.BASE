@@ -89,20 +89,19 @@
         const data = res.data
         //判断有没有返回数据
         if(data.length>0){
+          //清空列表
           $('.content').html('')
+          //把返回的数据遍历显示在列表
           data.map((item)=>{
             $('<li>').text(item.content).appendTo($('.content'))
           })
         }else{
+          //清空列表
           $('.content').html('')
+          //显示没有找到数据
           $('<li>').text('找不到你要的内容').appendTo($('.content'))
         }
       })
-    })
-    //测试post
-    ajaxPost('http://127.0.0.1:8080/doRegister','application/x-www-form-urlencoded','name=root&pwd=root')
-    .then(function(res){
-        console.log(res)
     })
   </script>
 </body>

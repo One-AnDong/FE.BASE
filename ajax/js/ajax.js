@@ -1,4 +1,3 @@
-//简单封装ajax
 export function ajaxGet(url) {
   return new Promise(function(resolve, reject) {
     const xhr = new XMLHttpRequest()
@@ -21,12 +20,19 @@ export function ajaxGet(url) {
     }
   })
 }
-export function ajaxPost(url, type, data) {
+export function ajaxPost(url, options) {
+  options = Object.assign(
+    {
+      data: '',
+      type: 'application/x-www-form-urlencoded'
+    },
+    options
+  )
   return new Promise(function(resolve, reject) {
     const xhr = new XMLHttpRequest()
     xhr.open('POST', url)
-    xhr.setRequestHeader('Content-type', type)
-    xhr.send(data)
+    xhr.setRequestHeader('Content-type', options.type)
+    xhr.send(options.data)
     xhr.onreadystatechange = function() {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
@@ -43,4 +49,8 @@ export function ajaxPost(url, type, data) {
       }
     }
   })
+}
+export function addr(path, host) {
+  let h = host || 'http://127.0.0.1:8080'
+  return path.replace(/\/api/, h)
 }
