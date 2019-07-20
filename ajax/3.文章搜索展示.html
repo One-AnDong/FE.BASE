@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>searchContent</title>
+  <style>
+    @keyframes linear {
+      50% {
+        background-color: #ff00ff;
+      }
+
+      100% {
+        background-color: #00cfff;
+      }
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: #e7e7e7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    #app {
+      width: 375px;
+      margin: auto;
+      height: 100vh;
+      background-color: #fff;
+    }
+
+    header {
+      /* height: 36px; */
+      padding: 6px 10px;
+      background-color: #fa0000;
+      animation: linear 10s linear 0s infinite alternate forwards;
+    }
+
+    input {
+      border: 0;
+      width: 100%;
+      outline: none;
+      border-radius: 20px;
+      height: 30px;
+      text-indent: 16px;
+    }
+
+    li {
+      list-style: none;
+      line-height: 30px;
+      border-bottom: 1px solid #c7c7c7;
+      padding-left: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <input id="filter" type="text" placeholder="请输入搜索内容">
+    </header>
+    <div class="content">
+      <li></li>
+      <li></li>
+    </div>
+    <footer></footer>
+  </div>
+  <script src="./lib/js/jquery-1.8.1.js"></script>
+  <script type="module">
+    import {ajaxGet,ajaxPost} from './js/ajax.js'
+    const url = 'http://127.0.0.1:8080/getArticle'
+    //生成列表
+    ajaxGet(url).then(function(res){
+      const data = res.data
+      data.map((item)=>{
+        $('<li>').text(item.title).appendTo($('.content'))
+      })
+    })
+    //搜索功能
+    $('#filter').on('input',function(){
+      const val = $(this).val()
+      const url = 'http://127.0.0.1:8080/getSearchArticle?search='+val
+      ajaxGet(url).then(function(res){
+        const data = res.data
+        //判断有没有返回数据
+        if(data.length>0){
+          $('.content').html('')
+          data.map((item)=>{
+            $('<li>').text(item.content).appendTo($('.content'))
+          })
+        }else{
+          $('.content').html('')
+          $('<li>').text('找不到你要的内容').appendTo($('.content'))
+        }
+      })
+    })
+    //测试post
+    ajaxPost('http://127.0.0.1:8080/doRegister','application/x-www-form-urlencoded','name=root&pwd=root')
+    .then(function(res){
+        console.log(res)
+    })
+  </script>
+</body>
+
+</html>

@@ -14,27 +14,30 @@
 <script>
   //订阅器
   (function () {
-    const eventArr = []
-    const handleEvent = function () {
-      for (let i = 0; i < eventArr.length; i++) {
-        eventArr[i]()
+    const eventsClient = {}
+    //发布器
+    function trigger(key) {
+      const temp = eventsClient[key]
+      for (let i = 0; i < temp.length; i++) {
+        temp[i]()
       }
     }
-    const add = function (fn) {
-      eventArr.push(fn)
-    }
-    window.eventClient = {
-      handleEvent: handleEvent,
-      add: add
+    //添加订阅器
+    function add(key, fn) {
+      if (!eventsClient[key]) {
+        eventsClient[key] = []
+      }
+      eventsClient[key].push(fn)
     }
   })();
   //添加处理函数
-  eventClient.add(function () {
+  eventClient.add('regSucess', function () {
     console.log('200', '请求成功')
   })
+
   //异步解耦
   setTimeout(function () {
-    eventClient.handleEvent()
+    eventClient.trigger('regSucess')
   }, 2000)
 </script>
 
