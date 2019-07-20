@@ -8,6 +8,7 @@
   <title>Document</title>
   <style>
     form {
+      position: relative;
       padding-top: 100px;
       padding-left: 100px;
     }
@@ -87,6 +88,7 @@
     <a class="register" href="./register.html">注册</a>
   </form>
   <script src="./lib/js/jquery-1.8.1.js"></script>
+  <script src="./js/extend.js"></script>
   <script src="./js/ajax.js"></script>
   <script type="module">
     import {ajaxGet,ajaxPost,addr} from './js/ajax.js'
@@ -97,16 +99,16 @@
       const name = oName.val()
       const pwd = oPwd.val()
       if(!name||!pwd){
-        alert('用户名密码不能为空')
+        return $.fn.toast('用户名密码不能为空')
       }else{
         const url = addr('/api/doLogin')
         let data = `name=${name}&pwd=${pwd}`
         ajaxPost(url,{data:data}).then(function(res){
           const data = res
           if(data.code === 200){
-            alert(data.msg)
+            $.fn.toast(data.msg)
           }else{
-            alert(data.msg)
+            $.fn.toast(data.msg)
           }
         })
       }

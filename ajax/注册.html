@@ -52,6 +52,11 @@
       background-color: #666;
     }
 
+    .error,
+    .correct {
+      position: relative;
+    }
+
     .error::after {
       position: absolute;
       top: 50%;
@@ -116,6 +121,7 @@
   </form>
 </body>
 <script src="./lib/js/jquery-1.8.1.js"></script>
+<script src="./js/extend.js"></script>
 <script src="./js/ajax.js"></script>
 <script type="module">
   import {ajaxGet,ajaxPost,addr} from './js/ajax.js'
@@ -129,7 +135,9 @@
     const url = addr('/api/isUserNameExist?name='+parame)
     ajaxGet(url).then(function(res){
       if(res.code === 401){
-        alert(res.msg)
+        $('.name').setError(res.msg)
+      }else{
+        $('.name').setCorrect(res.msg)
       }
     })
   })
@@ -139,21 +147,24 @@
     let pwdVal = oPwd.val()
     let repwdVal = oRepwd.val()
     if(pwdVal !== repwdVal){
-      alert('两次的输入的密码不相同')
+      $('.repwd').setError('两次的输入的密码不相同')
       return false
+    }else{
+      $('.repwd').setCorrect('两次的输入的密码一致')
+      return true
     }
-    return true
   }
   //点击注册的时候提交
   oSubmit.on('click',function(e){
     //终止默认行为
     window.event.preventDefault()
     let name = oName.val()
-    let pwd = oName.val()
-    //判断密码是否相同
-    let temp = handlePwd()
-    if(!temp) return
-    if(!name||!pwd){
+    let pwd = oPwd.val()
+    let repwd = oRepwd.val()
+    if(!$('form').checkForm()){
+      return  $.fn.toast('表单填写错误')
+    }
+    if(!name||!pwd||!repwd){
       alert('用户名密码不能为空')
       return 
     }else{
