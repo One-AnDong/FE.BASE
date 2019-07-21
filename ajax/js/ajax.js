@@ -54,3 +54,18 @@ export function addr(path, host) {
   let h = host || 'http://127.0.0.1:8080'
   return path.replace(/\/api/, h)
 }
+export function getUrlEncoded(elem) {
+  if (elem !== undefined) {
+    if ($) {
+      elem = elem[0]
+    }
+    const oInput = elem.elements
+    let result = ''
+    for (let i = 0; i < oInput.length; i++) {
+      if (oInput[i].name) {
+        result += `${oInput[i].name}=${oInput[i].value}&`
+      }
+    }
+    return result
+  }
+}
