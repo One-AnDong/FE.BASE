@@ -1,0 +1,14 @@
+{
+  "name": "baseServer",
+  "version": "1.0",
+  "description": "node基础",
+  "main": "index.js",
+  "author": "joe",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "art-template": "^4.13.2"
+  }
+}
