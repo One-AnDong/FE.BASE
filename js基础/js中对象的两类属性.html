@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+</body>
+<script>
+  /*-------------数据属性（数据描述符）------------*/
+  const a = {
+    name: 'joe',
+    age: 19,
+    getName() {
+      console.log(this.name)
+    }
+  }
+  console.log(Object.getOwnPropertyDescriptor(a, 'name'))
+  Object.defineProperties(a, {
+    'name': {
+      // value: 'joe',
+      writable: false,
+      enumerable: false,
+      // configurable: false
+    }
+  })
+  //写入
+  a.name = 'test'
+  //枚举
+  for (let i in a) {
+    console.log(i)
+  }
+  //删除 使用delete删除属性
+  delete a.name
+  console.log(a)
+  /*-------------访问器属性（访问器描述符）------------*/
+</script>
+
+</html>

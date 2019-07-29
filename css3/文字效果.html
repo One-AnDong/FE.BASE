@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+    }
+
+    .font {
+      margin: 0 10px;
+      color: deeppink;
+      font-size: 3em;
+      filter: blur(1px);
+      animation: code 3s linear infinite;
+      text-shadow: 0px 0px 3px purple;
+
+    }
+
+    @keyframes code {
+
+      0% {
+        color: red;
+      }
+
+      15% {
+        color: orange;
+      }
+
+      30% {
+        color: yellow;
+      }
+
+      45% {
+        color: yellowgreen;
+      }
+
+      70% {
+        color: skyblue
+      }
+
+      85% {
+        color: plum;
+      }
+
+      100% {
+        color: blueviolet;
+      }
+    }
+
+    .font:nth-child(1) {
+      animation-delay: 0ms
+    }
+
+    .font:nth-child(2) {
+      animation-delay: .15s
+    }
+
+    .font:nth-child(3) {
+      animation-delay: .25s
+    }
+
+    .font:nth-child(4) {
+      animation-delay: .35s
+    }
+
+    .font:nth-child(5) {
+      animation-delay: .45s
+    }
+
+    .font:nth-child(6) {
+      animation-delay: .65s
+    }
+
+    .font:nth-child(7) {
+      animation-delay: .75s
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <span class="font">I </span>
+    <span class="font">afford</span>
+    <span class="font">give</span>
+    <span class="font">you</span>
+    <span class="font">afford </span>
+    <span class="font">or</span>
+    <span class="font">strive</span>
+  </div>
+</body>
+
+</html>

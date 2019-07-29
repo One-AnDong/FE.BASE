@@ -33,19 +33,34 @@ module.exports = (req, res) => {
       res.write(data)
       res.end()
     })
-  } else if (url === '/addHero') {
-    if (req.method === 'GET') return
+  } else if (url === '/addHero' && req.method === 'POST') {
     let heroData = ''
+    //post请求数据接收事件 数据以数据包的形式发送
     req.on('data', chunk => {
       heroData += chunk
     })
+    //post请求数据接收完毕
     req.on('end', () => {
+      //将接收的post请求数据（字符串等）格式化为对象
       const _json = querystring.parse(heroData)
+      //读取本地数据
       fs.readFile(__dirname + '/data/hero.json', 'utf-8', (error, rest) => {
         const temp = JSON.parse(rest)
-        _json.id = temp.length + 1
+        //定义一个变量id
+        let id = 0
+        //循环读取出来的本地数据（数组），将数组内最大的id值赋值给变量id
+        temp.map(item => {
+          if (item.id > id) {
+            id = item.id
+          }
+        })
+        //给post上来的数据添加一个比数组内最大id大1的id值
+        _json.id = id + 1
+        // 把post的数据添加到读取的数组内
         temp.push(_json)
+        //将数组转化成json字符串
         const result = JSON.stringify(temp)
+        //将json字符串以utf-8的格式写入本地文件
         fs.writeFile(__dirname + '/data/hero.json', result, 'utf-8', erro => {
           if (erro) throw erro
           res.end(
@@ -57,8 +72,27 @@ module.exports = (req, res) => {
         })
       })
     })
-  }else if(){} 
-  else {
+  } else if (url === '/uploadPic') {
+    if (req.method === 'POST') {
+      let result = ''
+      req.setEncoding('binary')
+      console.log('请求来了')
+      req.on('data', chunk => {
+        result += chunk
+      })
+      req.on('end', () => {
+        fs.writeFile(
+          __dirname + `/assets/image/${Date.now()}.jpg`,
+          result,
+          'binary',
+          err => {
+            if (err) throw err
+            res.end('响应结束')
+          }
+        )
+      })
+    }
+  } else {
     res.end('404')
   }
 }

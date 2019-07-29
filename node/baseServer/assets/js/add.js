@@ -1,6 +1,9 @@
 ;(function() {
   const oSubmit = document.querySelector('#sub')
+  const oFile = document.querySelector('#img')
+  //添加事件
   oSubmit.addEventListener('click', handleClick)
+  oFile.addEventListener('change', handleChange)
   //处理点击事件的函数
   function handleClick(e) {
     e.preventDefault()
@@ -16,8 +19,23 @@
         console.log(data)
       }
     }
-    //测试
-    console.log(serialize('#myform'))
+  }
+  //处理change事件函数
+  function handleChange() {
+    // console.log('success')
+    const formData = new FormData()
+    formData.append('pic', this.files[0])
+    const xhr = new XMLHttpRequest()
+    xhr.open('POST', 'http://localhost:8989/uploadPic')
+    xhr.send(formData)
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState !== 4) return
+      if (xhr.status == 200) {
+        console.log(123)
+        const data = xhr.responseText
+        console.log(data)
+      }
+    }
   }
   //获取表单数据的函数
   function serialize(selector) {
