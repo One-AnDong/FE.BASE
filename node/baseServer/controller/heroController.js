@@ -50,6 +50,7 @@ module.exports = {
         _json.id = id + 1
         result.push(_json)
         const newArr = JSON.stringify(result)
+        //调用写入模块
         Model.writeFile(newArr, err => {
           if (err) throw err
           res.end(

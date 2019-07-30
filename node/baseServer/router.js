@@ -1,6 +1,6 @@
 const fs = require('fs')
 const pathName = require('url')
-const querystring = require('querystring')
+
 const heroContorller = require('./controller/heroController')
 module.exports = (req, res) => {
   const oUrl = pathName.parse(req.url, true)
