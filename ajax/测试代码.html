@@ -12,15 +12,21 @@
 
 </body>
 <script type="module">
-  import Ajax from './js/allAjax.js'
-  const options = {
-    type: 'GET',
-    url: 'http://127.0.0.1:8080/getRandomJocke'
-  }
-  const test = new Ajax(options)
-  test.then(function(res){
-    console.log(res)
-  })
+  // import Ajax from './js/allAjax.js'
+  // const options = {
+  //   type: 'GET',
+  //   url: 'http://127.0.0.1:8888/api/getHero?id=3'
+  // }
+  // const test = new Ajax(options)
+  // test.then(function(res){
+  //   console.log(res)
+  // })
 </script>
+<script>
+  function test(data) {
+    console.log(data)
+  }
+</script>
+<script src="http://127.0.0.1:8888/jsonp/test?id=3&callback=test"></script>
 
 </html>
