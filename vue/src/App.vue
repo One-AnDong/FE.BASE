@@ -3,6 +3,7 @@
     <router-view />
     <div id="nav">
       <router-link to="/todolist">TodoList</router-link>
+      <router-link to="/event">Event</router-link>
     </div>
   </div>
 </template>

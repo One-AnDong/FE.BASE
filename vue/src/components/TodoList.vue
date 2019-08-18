@@ -1,9 +1,10 @@
 /**
  * @Author: Joe Yao
- * @Date: 2019-08-16 19:29:33
+ * @Date: 2019-08-18 20:26:14
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-08-16 20:40:23
+ * @Last Modified time: 2019-08-18 21:22:00
  */
+
 <template lange="pug">
   <div class="todolist">
 
@@ -51,13 +52,31 @@
       </table>
     </div>
 
+    <fade-animation>
+      <template v-slot:default>
+        <!-- 模态框 -->
+        <modal v-if="del"
+               @modal:enter="handleEnter"
+               @modal:cancel="handleCancel">
+          <template v-slot:title>
+            <h3>提示</h3>
+          </template>
+          <template v-slot:content>
+            <p>你确定要删除吗？</p>
+          </template>
+        </modal>
+      </template>
+    </fade-animation>
   </div>
 </template>
 
 <script>
 import { focus } from '@/utils/directives'
 import { timeFormat } from '@/utils/filters'
+import Modal from './Modal'
+import FadeAnimation from './FadeAnimation'
 export default {
+  components: { Modal, FadeAnimation },
   data () {
     return {
       listData: [
@@ -70,7 +89,9 @@ export default {
         id: '',
         name: ''
       },
-      search: ''
+      search: '',
+      del: false,
+      searchRes: []
     }
   },
   methods: {
@@ -82,11 +103,23 @@ export default {
       this.listData.push({ ...this.inputObj, time: new Date() })
     },
     handleDelete (id) {
+      this.del = true
+      this.delId = id
+    },
+    handleCancel () {
+      this.del = false
+    },
+    handleEnter () {
       // 不改变原数组
       const newData = this.listData.filter((item) => {
-        return item.id !== id
+        return item.id !== this.delId
       })
+      // 筛选出的新数给列表数据
       this.listData = newData
+      // 隐藏模态框
+      this.del = false
+      // 将临时变量释放
+      this.delId = null
     }
   },
   filters: {
@@ -100,11 +133,11 @@ export default {
     timeFormat
   },
   computed: {
-    searchRes () {
-      return this.listData.filter((item) => {
-        return item.name.indexOf(this.search) !== -1
-      })
-    }
+    // searchRes () {
+    //   return this.listData.filter((item) => {
+    //     return item.name.indexOf(this.search) !== -1
+    //   })
+    // }
   },
   directives: {
     // myFocus: {
@@ -113,6 +146,24 @@ export default {
     //   }
     // }
     myFocus: focus
+  },
+  watch: {
+    // 监测搜索框数据（搜索）
+    search: {
+      handler: function (val) {
+        this.searchRes = this.listData.filter((item) => {
+          return item.name.indexOf(val) !== -1
+        })
+      },
+      immediate: true
+    },
+    // 检测数组变化（添加）
+    listData () {
+      this.searchRes = this.listData
+    }
+  },
+  mounted () {
+    console.log(this.searchRes)
   }
 }
 </script>

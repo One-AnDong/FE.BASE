@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Learning from './views/Learning'
 import TodoList from './components/TodoList'
+import Event from './components/Event'
 Vue.use(Router)
 
 export default new Router({
@@ -16,6 +17,11 @@ export default new Router({
       path: '/todolist',
       name: 'todolist',
       component: TodoList
+    },
+    {
+      path: '/event',
+      name: 'event',
+      component: Event
     }
   ]
 })

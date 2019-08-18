@@ -36,9 +36,9 @@ export default {
   }
 }
 </script>
-//vue怎么侦测子组件改变了值
-//emit 返回的是什么 上层主见return一个值
-//相同名字的插槽是替换还是
+//vue怎么侦测子组件改变了值: 通过监听props对象 object.define
+//emit 返回的是什么 上层主见return一个值 ：返回当前实例，无法return一个值
+//相同名字的插槽是替换还是 ：同名插槽覆盖
 //创建vnode 使用函数式组件渲染
 //拓展v-model 例子，做手机号验证
 //为什么不能用index做为key？（性能问题，引入bug）
@@ -50,5 +50,6 @@ export default {
 //防抖
 //vue.observavle 优化响应式provide
 //provide inject 跨组件通讯
+//JSX的使用，改变demo
 <style>
 </style>
