@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>hash</title>
+</head>
+
+<body>
+  <div>这是一段测试hash的小文字，改变hash值将触发hashchange事件，这段文字的颜色取自hash值</div>
+</body>
+<script>
+  window.onhashchange = function (e) {
+    console.log('form:', e.newURL, 'from:', e.oldURL)
+    document.body.style.color = location.hash.slice(1)
+    console.log(location.hash)
+  }
+</script>
+
+</html>

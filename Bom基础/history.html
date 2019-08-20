@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>HTML5 history</title>
+</head>
+
+<body>
+  <div>history给我们保存状态的能力，通过pushState()添加激活历史条目,通过replaceState()修改当前激活的历史条目
+    ，history接收三个参数，stateObj,title,url,
+    history.push(stateObj,name,path)，例:history.pushState({page:1},'title1','?page=1'),通过onpopstate事件的event对象会拷贝一份改历史记录条目的state
+  </div>
+</body>
+<script>
+  history.pushState({
+      color: 'red',
+    },
+    '',
+    '?color=red') //添加并激活一个历史条目,histroy.html？color=red
+  history.back() //返回上一条历史条目 histroy.html
+  setTimeout(() => {
+    history.forward() //设置定时器后前进到下一条历史条目 ,histroy.html？color=red
+  }, 1000)
+  // 状态的历史记录条目发生变化时, popstate事件就会在对应window对象上触发.
+  window.onpopstate = function (e) {
+    console.log(e.state)
+    if (e.state && e.state.color === 'red') {
+      document.body.style.color = 'red'
+    }
+  }
+  //每当处于激活
+  // window.onpopstate = function (event) {
+  //   alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+  // };
+  // //绑定事件处理函数.
+  // history.pushState({
+  //   page: 1
+  // }, "title 1", "?page=1"); //添加并激活一个历史记录条目 http://example.com/example.html?page=1,条目索引为1
+  // history.pushState({
+  //   page: 2
+  // }, "title 2", "?page=2"); //添加并激活一个历史记录条目 http://example.com/example.html?page=2,条目索引为2
+  // history.replaceState({
+  //   page: 3
+  // }, "title 3", "?page=3"); //修改当前激活的历史记录条目 http://ex..?page=2 变为 http://ex..?page=3,条目索引为3
+  // history.back(); // 弹出 "location: http://example.com/example.html?page=1, state: {"page":1}"
+  // history.back(); // 弹出 "location: http://example.com/example.html, state: null
+  // history.go(2); // 弹出 "location: http://example.com/example.html?page=3, state: {"page":3}
+</script>
+
+</html>
