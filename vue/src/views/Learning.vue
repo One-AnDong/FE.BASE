@@ -51,5 +51,8 @@ export default {
 //vue.observavle 优化响应式provide
 //provide inject 跨组件通讯
 //JSX的使用，改变demo
+//nuxt =>ssr 静态使用prerendering预渲染
+//spa缺点是seo不好，首屏时间长（因为我们的index.html文件其实是空壳，内容都是js文件加载渲染出来的，爬虫爬不到）
+//不用ssr 怎么去做seo
 <style>
 </style>

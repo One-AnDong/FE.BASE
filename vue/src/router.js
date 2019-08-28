@@ -3,8 +3,8 @@ import Router from 'vue-router'
 import Learning from './views/Learning'
 import TodoList from './components/TodoList'
 import Event from './components/Event'
-import Category from './components/Category'
 import Info from './components/Info'
+import Vmodel from './components/Vmodel'
 
 Vue.use(Router)
 
@@ -15,6 +15,10 @@ export default new Router({
     {
       path: '/',
       component: Learning
+    },
+    {
+      path: '/model',
+      component: Vmodel
     },
     {
       path: '/todolist',
@@ -30,7 +34,8 @@ export default new Router({
       // path: '/category/:id?',
       path: '/category/:id',
       name: 'category',
-      component: Category,
+      component: () => import('./components/Category'),
+      // component: h => h('router-view'),
       children: [
         {
           path: 'info',

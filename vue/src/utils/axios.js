@@ -68,5 +68,3 @@ axios.interceptors.response.use(
 
 // 暴露axios
 export default axios
-export function test () {}
-export const obj = {}

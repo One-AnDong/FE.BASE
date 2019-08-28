@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn">测试</button>
+    <script src="./js/debounce.js"></script>
+    <script src="./js/throttle.js"></script>
+
+    <script>
+      const oBtn = document.querySelector('#btn')
+      // oBtn.addEventListener(
+      //   'click',
+      //   debounce(() => {
+      //     console.log('我触发了')
+      //   }, 800)
+      // )
+      oBtn.addEventListener(
+        'click',
+        throttle(() => {
+          console.log('我触发了')
+        }, 800)
+      )
+    </script>
+  </body>
+</html>
